@@ -1,0 +1,80 @@
+todo:
+- after procession is finished, in order to collect relic user has to answer 3 questions (multiple choice, 3 options), at least 2 answers must be correct in order to collect relic
+- extend question catalog massively (300+ questions). questions are classified according to type, difficulty and relationship to relic.
+ - types, related to
+  - geography "where is "
+  - relic related "what is relic renowned for"
+  - what is meant by "divine inversion", >> here user is introduced into concepts
+  - from latin translation: what is meant by "omnium transceat"
+  - to latin translation: give latin translation of "highest belief"
+  - theological questions related to famous discussions, schismas, church splits etc etc
+
+ - difficulty
+- so user gets only easy questions at beginning, gradually it becomes harder
+- short explanation and maybe funfact is given for each correct answer, so user learns something about subject
+- answers that were correctly answered are repeated max. a second time. do not keep asking user same questions he already answered.
+
+- once read (= shown) articles get green checkmark "v". the percentage of articles with v is shown and translated to kind of academic points scala, which again propelles you through an academic carreer with 12 titles, from something like 'illiterate son of a shepherd' > 'novice' > 'avid hobby reader' > 'student' > ... > 'elite exorcist' > 'chief bearer of eternal truths' or similar - you get the drift. so this would be another scale where user gets ceremoniusly promoted - add corresponding stages and dialogs. like classic gaming practice, progress is not linear, but fast at start and getting slower.
+
+
+
+
+
+You are an expert full-stack game developer and narrative designer specializing in immersive, lore-heavy collection games (think a mix of "Assassin's Creed" relic hunting, "Hades" progression systems, and a digital "Martyrologium Romanum").
+
+The game concept is: **"Reliquary Codex"** — a mobile/PC historical-theological relic-hunting adventure. Players explore real-world-inspired maps (starting with Milano, then Rome, later Jerusalem/Constantinople). They hunt, collect, and venerate sacred relics classified by a rich three-axis system (Material/Form + Provenance + Theological Dignity). The tone is deeply respectful, atmospheric, and scholarly with heavy Latin terminology, scholastic theology, and Catholic liturgical flavor. It feels like a sacred treasure hunt crossed with a living reliquary museum.
+
+The player already has:
+- Basic map system and exploration framework
+- Player inventory / progression backend
+- UI framework
+
+I have prepared and saved the following files. Use ALL of them exactly as provided (do not change the data inside):
+- relics.json → full relic database with three-axis classification, lore, points, locations
+- quest_generator.txt → the complete dynamic quest engine (including the latest version with Hyperdulia, Incorruptio miracles, and liturgical feast triggers)
+- codexEntryMockup.txt → Codex Entry screen design
+- theologicalDignitySystem.txt → full rules for Primaria/Secundaria/Tertiaria, Latria/Hyperdulia/Dulia, Incorruptio, etc.
+- quests01-10.txt and quests11-20.txt → real quest examples
+
+YOUR MISSION:
+Integrate everything above into a complete, production-ready game architecture and development plan. Produce a full working game system that feels mysterious, reverent, and addictive.
+
+CORE REQUIREMENTS:
+1. **Database & Backend Logic**
+   - Full schema (SQL or NoSQL) for relics, player codex, quests, and progress.
+   - Implement the QuestGenerator class exactly, with smart parameter selection so quests always feel 30–70% complete for the player.
+   - Add Hyperdulia (Marian), Incorruptio miracles, and real-time liturgical feast triggers (use real calendar dates or in-game calendar).
+
+2. **Mystery & Uncertainty Layer (this is CRITICAL for immersion)**
+   - **Reliquary Wall / Chapel System**: A grand gothic “Wall of Relics” or virtual chapel where the player places collected relics. Missing relics show only a dark silhouette / placeholder with faint Latin inscription hinting at what belongs there (e.g. “Hic manet manus Petri…”). The actual relic image and full lore are hidden until collected. When a relic is placed, dramatic reveal animation + particle burst based on veneration_type (gold Latria rays, rose Hyperdulia petals, soft Dulia mist).
+   - Fog of Discovery: On the map, relic locations start as “shadowed crypts” or “veiled altars”. Quests and clues slowly lift the fog, revealing only partial information (e.g. “A Primaria Osseous relic of Petrine dignity lies near…”).
+   - Uncertain Authenticity: Some relics (especially Tertiaria) have a hidden “authenticity roll” that is only confirmed after a mini-game or during a liturgical feast.
+   - Hidden Lore & Visions: Codex entries unlock gradually. Completing a full saint set triggers a narrated “Saint’s Vision” cinematic with Aquinas or Ambrose quotes.
+   - Random Miracle Events: When Incorruptio or high-dignity conditions are met, unpredictable global buffs or temporary map revelations occur.
+   - Procedural filler relics: Generate low-rarity Tertiaria relics with slight uncertainty in exact provenance until examined.
+
+3. **Progression, Gamification & Rewards**
+   - Personal Reliquary Chapel with set bonuses, cosmetic styles (Gothic / Baroque / Ambrosian).
+   - Holy Essence currency, achievements, titles (in Latin), leaderboards.
+   - Duplicate relics auto-convert to essence + lore fragments.
+   - Progression tiers: Novice Hunter (Milano) → Relic Warden (Rome) → Global Sanctifier.
+
+4. **UI/UX & Atmosphere**
+   - Dark parchment + gold filigree aesthetic, candlelight particles, subtle Gregorian chant audio.
+   - Codex Entry screen exactly as described in codex_ui_mockup.txt, with 3D relic spin and filter-by-axis.
+   - Quest board with glowing Latin titles and feast banners.
+   - Reliquary Wall as the emotional “home base” screen.
+
+5. **Technical & Development Deliverables I need from you:**
+   - High-level architecture diagram (modules, data flow).
+   - Complete updated QuestGenerator in real TypeScript/JavaScript (or your preferred language).
+   - Database schema + example queries.
+   - Full integration plan with the player’s existing map framework.
+   - Step-by-step implementation roadmap (Phase 1: Milano core, Phase 2: Rome + feasts, Phase 3: mystery systems).
+   - Balance guidelines (rarity distribution, grind prevention, difficulty curve).
+   - Suggested sound & visual FX list.
+   - Scalability notes for adding new cities and hundreds more relics.
+
+Make the final game feel like a living theological artifact: respectful, mysterious, scholarly, and deeply satisfying to play. Every mechanic should reinforce the theme of *communio sanctorum* and the *pignora sancta*.
+
+Output your response in clear sections with code blocks where appropriate. Begin directly with the architecture overview.

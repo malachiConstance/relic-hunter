@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.atlasobscura.com)",
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react-ts)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npx vite *)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" status)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" init)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" add -A)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" rm -r --cached -q .)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" status --short)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" rm -rf --cached -q .)"
+    ]
+  }
+}

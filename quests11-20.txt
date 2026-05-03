@@ -1,0 +1,92 @@
+
+
+**10 New Sample Quests**  
+(Generated with the *fully upgraded* QuestGenerator. They heavily reference the dignity system, Hyperdulia, Incorruptio, and liturgical triggers. All assume partial player progress for perfect engagement.)
+
+### 1. **Hyperdulia Deiparae – Veil of the Assumption**
+**Type:** THEOLOGICAL_SET (Hyperdulia)  
+**Name:** *Collectio Hyperduliae Deiparae – Velum Assumptionis*  
+**Description:** *“In honorem Hyperduliae”* — Gather all *Secundaria* Textile relics of the *Deipara* during the octave of the Assumption. The *cultus* of the Mother of God passes through her sacred garments.  
+**Objective:** Collect 4+ relics with `veneration_type: "Hyperdulia"` and `material_class: "Textile"`.  
+**Current Progress:** 1/4 (you hold one Marian veil fragment).  
+**Liturgical Trigger:** Active during *Assumptio Beatae Mariae Virginis* window → +40% points.  
+**Rewards:** 1,320 Holy Essence + Title: *Cultor Hyperduliae* + *Intercessio Deiparae* buff.
+
+### 2. **Incorruptio Ambrosiana**
+**Type:** SAINT_REASSEMBLY  
+**Name:** *Reconstitutio Corporis Incorrupti Sancti Ambrosii*  
+**Description:** Reassemble the *exuviae primariae* of Milan’s patron, including at least one *Incorruptio* relic. As Aquinas teaches, the uncorrupted body is a living *signum* of resurrection glory.  
+**Objective:** 1 *Head* + 1 *Torso* + 1 *Incorruptio*-tagged relic of Ambrosian provenance.  
+**Current Progress:** 2/3 (you have the *Cranium Sancti Ambrosii* marked Incorruptio).  
+**Rewards:** 1,050 Holy Essence + Miracle: *Incorruptio Sancti* (+50% Primaria drops for 48h) + Title: *Custos Incorruptionis*.
+
+### 3. **Instrumenta Passionis in Festum Crucis**
+**Type:** INSTRUMENTA_PASSIONIS  
+**Name:** *Instrumenta Passionis Domini – In Festum Inventionis Crucis*  
+**Description:** *“Per modum signi”* — Collect 8 *Primaria (Latria)* relics of the *Instrumenta Passionis* while the liturgical feast is active. The *Lignum Crucis* and *Clavi* radiate *Latria* directly to the God-Man.  
+**Objective:** 8+ relics with `theological_dignity: "Instrumenta Passionis"` and `theological_sub` containing **Primaria**.  
+**Liturgical Trigger:** *Inventio Crucis* / *Rito della Nivola* window → double progress speed.  
+**Current Progress:** 5/12.  
+**Rewards:** 1,680 Holy Essence + Global *Virtus Crucis* event unlock.
+
+### 4. **Hyperdulia & Dulia Marian-Patristic Blend**
+**Type:** CATEGORY_SWEEP  
+**Name:** *Pignora Hyperduliae et Duliae Deiparae Mediolanensis*  
+**Description:** Sweep all relics bearing *Hyperdulia* (Marian) or *Dulia* tied to Milan’s Marian shrines. The *communio sanctorum* unites the Mother and her earthly patrons.  
+**Objective:** All relics where `veneration_type` is **Hyperdulia** OR (`provenance_class: "Patristic"` + location Milan).  
+**Current Progress:** 3/7.  
+**Rewards:** 920 Holy Essence + Permanent +20% on all Hyperdulia relics.
+
+### 5. **Reconstitutio Incorrupta Petri**
+**Type:** SAINT_REASSEMBLY  
+**Name:** *Reconstitutio Corporis Incorrupti Principis Apostolorum*  
+**Description:** Reassemble the *Corpus Petri* with special emphasis on any *Incorruptio* fragments. The bones beneath the *Confessio* are a perpetual *pignus* of apostolic primacy.  
+**Objective:** 1 *Hand* + 1 *Torso* + 1 *Incorruptio* relic of Petrine provenance.  
+**Current Progress:** 1/3 (you have *Ossa Petri*).  
+**Rewards:** 1,240 Holy Essence + *Incorruptio Petri* miracle buff.
+
+### 6. **Primaria Hyperduliae – Marian Exuviae**
+**Type:** THEOLOGICAL_SET  
+**Name:** *Collectio Reliquiarum Primariae Hyperduliae*  
+**Description:** *“Hyperdulia singularis”* — Acquire 5 *Primaria* relics of the Blessed Virgin (hair, milk, robe fragments). These *exuviae* receive the highest veneration after Christ Himself.  
+**Objective:** 5+ relics with `veneration_type: "Hyperdulia"` and `theological_dignity: "Primaria"`.  
+**Current Progress:** 2/5 (new Marian relics added to pool).  
+**Rewards:** 1,410 Holy Essence + Title: *Servus Mariae*.
+
+### 7. **Liturgical Feast Chain: Ambroseana in Decembri**
+**Type:** LOCAL_PATRON  
+**Name:** *Ambroseana Mediolanensia – In Festum Sancti Ambrosii*  
+**Description:** Complete the full dignity set of Milan’s patron *during* his liturgical feast. Every *Primaria* and *Secundaria* relic glows with *Dulia* amplified by the *festum*.  
+**Objective:** All Ambrosian relics (`location_id` Milan + any dignity class).  
+**Liturgical Trigger:** *Feast of St. Ambrose (Dec 7)* window → +40% Holy Essence.  
+**Current Progress:** 4/8.  
+**Rewards:** 1,100 Holy Essence + *Benedictio Ambrosiana* (permanent).
+
+### 8. **Dignity Cross-Set: Latria + Hyperdulia**
+**Type:** THEOLOGICAL_SET  
+**Name:** *Pignora Latriae et Hyperduliae Passionis et Deiparae*  
+**Description:** Unite the highest dignities: at least 3 *Latria* (Passion) and 3 *Hyperdulia* (Marian) relics. As Trent declares, both point ultimately to the one *cultus* of the divine.  
+**Objective:** 3+ Latria + 3+ Hyperdulia relics.  
+**Current Progress:** 2/6.  
+**Rewards:** 1,550 Holy Essence + Dual-aura *Miraculum Dignitatis* event.
+
+### 9. **Incorruptio Martyrum Gervasii & Protasii**
+**Type:** SAINT_REASSEMBLY  
+**Name:** *Reconstitutio Incorrupta Martyrum Mediolanensium*  
+**Description:** Reassemble the proto-martyrs with *Incorruptio* emphasis. Their bodies, discovered by Ambrose, remain *signa* of triumphant incorruption.  
+**Objective:** Complete body-part set for Gervasius/Protasius + 1 *Incorruptio* tag.  
+**Current Progress:** 3/4.  
+**Rewards:** 980 Holy Essence + *Incorruptio Martyrum* buff.
+
+### 10. **Omnium Dignitatum in Festum Nivolae**
+**Type:** INSTRUMENTA_PASSIONIS  
+**Name:** *Collectio Omnium Dignitatum Instrumentorum – In Festum Nivolae*  
+**Description:** *“Rito della Nivola”* — During the exposition of the *Santo Chiodo*, gather relics across **all three dignity levels** (Primaria Latria, Secundaria, Tertiaria) of the Passion.  
+**Objective:** At least 2 from each theological_dignity level among Instrumenta Passionis.  
+**Liturgical Trigger:** *Rito della Nivola* window → triple progress on the Holy Nail itself.  
+**Current Progress:** 4/9.  
+**Rewards:** 1,850 Holy Essence + Legendary *Nivola Miracle* (guaranteed Legendary relic drop next hunt).
+
+These quests are 100% plug-and-play with your existing JSON + the new logic. The dignity system now drives *everything* — from visual FX to feast-timed global events.
+
+Want the updated full QuestGenerator pseudocode with these three features baked in, a new batch of Marian relic JSON to seed the Hyperdulia system, or UI mockups for the new feast-triggered quest board? Just command it, *sancte relictor*! *Deo gratias pro Hyperdulia et incorruptione!*

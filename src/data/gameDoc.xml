@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RELIC HUNTER — In-Game Documentation
+  ======================================
+  Edit this file in any text editor to update help text, glossary terms,
+  and tutorial descriptions. Changes take effect on next dev-server reload.
+
+  Structure:
+    <gameDoc>
+      <glossary>         — hover tooltips + full definitions
+      <section>          — help panel sections (game concepts, mechanics)
+      <tutorial>         — step-by-step tutorial campaign walkthrough
+    </gameDoc>
+-->
+<gameDoc>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       GLOSSARY
+       Each <term> appears as a hover tooltip when the word is used in the UI.
+       <short>  = tooltip text (keep under 120 chars)
+       <full>   = full definition shown in the Help panel glossary tab
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <glossary>
+
+    <term id="holy-essence">
+      <word>Holy Essence</word>
+      <short>The sacred currency earned by venerating relics and completing quests.</short>
+      <full>Holy Essence (Essentia Sacra) is awarded when you collect a relic, pass the theological examination, complete a quest, or answer questions correctly during the arrival ceremony. It accumulates in your pilgrim account and reflects the depth of your spiritual journey. Future features will allow spending Holy Essence to unlock additional pilgrimage routes and sacred privileges.</full>
+    </term>
+
+    <term id="devotio">
+      <word>Devotio</word>
+      <short>Spiritual merit accumulated by walking sacred paths. Gained with each step of a procession.</short>
+      <full>Devotio points represent the pilgrim's interior spiritual effort — the merit earned not by collecting relics but by the act of walking itself. Every step along a sacred path contributes to your Devotio score. Occasional Veiled Visions during processions grant bonus Devotio. The concept mirrors the medieval theology of pilgrimage, where the journey was considered as meritorious as the destination.</full>
+    </term>
+
+    <term id="peregrination">
+      <word>Peregrination</word>
+      <short>A sacred pilgrimage journey to venerate holy relics at their shrines.</short>
+      <full>Peregrination (from Latin "peregrinatio", journey through a foreign land) is the act of physically walking from your current position to a relic's shrine. Unlike simply appearing at a location, a peregrination must be completed in full — walking every step of the sacred path. The procession animation represents this journey, and the arrival ceremony at the end is the spiritual reward for completing it.</full>
+    </term>
+
+    <term id="procession">
+      <word>Procession</word>
+      <short>The animated walk from your position to a relic shrine, following sacred street paths.</short>
+      <full>A procession is initiated by tapping a relic ring on the map and pressing "Begin Procession" in the teaser card. Your pilgrim avatar then walks to the destination along the sacred path network (the orange lines on the map), taking 5–20 seconds depending on distance. Footstep sounds play throughout. Occasional Veiled Visions appear as you walk. The procession ends with an Arrival Ceremony at the shrine.</full>
+    </term>
+
+    <term id="arrival-ceremony">
+      <word>Arrival Ceremony</word>
+      <short>The cinematic moment of reaching a relic — reveals its full theological record.</short>
+      <full>The Arrival Ceremony is triggered when your pilgrim reaches a relic shrine after a procession. For Primaria or Legendary relics, the full three-axis theological classification, lore, and historical facts are revealed. For all relics, you must pass the Theological Examination (3 questions, 2 correct required) before the relic is added to your collection. Failing sends you away for a cooling-off period before you may retry.</full>
+    </term>
+
+    <term id="theological-examination">
+      <word>Theological Examination</word>
+      <short>Three questions about a relic's history. Answer 2 of 3 correctly to claim it.</short>
+      <full>The Theological Examination (Examen Theologicum) is a mandatory quiz at the end of each Arrival Ceremony. Three multiple-choice questions test your knowledge of the relic's history, its church, and broader theological context. You must answer at least 2 of 3 correctly to add the relic to your collection. After each answer, an explanation provides the correct answer plus additional historical context. Failing requires a cooling-off period before you may begin procession again.</full>
+    </term>
+
+    <term id="collectio">
+      <word>Collectio</word>
+      <short>Your personal collection of venerated relics, housed in your private chapel.</short>
+      <full>Collectio refers both to the act of collecting relics and to the collection itself. A relic enters your Collectio only after a completed procession and a passed Theological Examination. Your collection is displayed in the Reliquary Chapel, grouped by veneration type. The progress toward collecting all 12 Milan relics drives the main game arc, culminating in the Rome Unlock sequence.</full>
+    </term>
+
+    <term id="dignitas-theologica">
+      <word>Dignitas Theologica</word>
+      <short>The theological rank of a relic: Primaria (body), Secundaria (object), Instrumenta Passionis (Passion instrument).</short>
+      <full>Dignitas Theologica (Theological Dignity) is the Church's hierarchical classification of relics by their proximity to sanctity:
+— Primaria: body parts of saints (bones, flesh, blood). The highest category.
+— Secundaria: objects intimately associated with a saint's life (vestments, tools, personal effects).
+— Tertiaria: objects that touched a primary or secondary relic (brandeums).
+— Instrumenta Passionis: objects directly associated with Christ's Passion (the Cross, the Nails, the Crown of Thorns). These receive Latria veneration — the highest form, reserved otherwise for God alone.</full>
+    </term>
+
+    <term id="veneration-type">
+      <word>Veneration Type</word>
+      <short>The liturgical form of honour due to a relic: Latria, Hyperdulia, or Dulia.</short>
+      <full>Catholic theology distinguishes three forms of religious honour:
+— Latria: the highest form of worship, due to God alone and, by extension, to the Instrumenta Passionis (objects of Christ's Passion). Displayed in gold in the game.
+— Hyperdulia: special veneration due to the Virgin Mary. Displayed in rose-gold.
+— Dulia: honour due to saints and their relics. The most common form. Displayed in blue-grey.
+This distinction is theologically precise: venerating a relic is never worship of the object, but honour given to God through the saint.</full>
+    </term>
+
+    <term id="rarity">
+      <word>Rarity</word>
+      <short>A relic's rarity rank: Common, Uncommon, Rare, or Legendary.</short>
+      <full>Rarity is a game classification reflecting both the historical significance of the relic and the depth of the arrival ceremony it triggers. Legendary and Primaria relics receive the full three-axis ceremony with complete theological revelation. Rare and below receive a shorter ceremony. Rarity also affects Holy Essence rewards — a Legendary relic awards significantly more than a Common one.</full>
+    </term>
+
+    <term id="provenance">
+      <word>Provenance</word>
+      <short>The origin lineage of a relic — which saint, tradition, or sacred event it belongs to.</short>
+      <full>Provenance (from Latin "provenire", to come from) describes a relic's origin and lineage. In the game's three-axis classification system, each relic has a Provenance Class (broad origin: Christological, Patristic, Apostolic, Biblical) and a Provenance Sub (specific saint or tradition: Ambrosian, Gervasian, Magi, etc.). Provenance affects which Liturgical Feasts give bonus multipliers and which tutorial quests a relic can fulfil.</full>
+    </term>
+
+    <term id="liturgical-feast">
+      <word>Liturgical Feast</word>
+      <short>A sacred calendar day that grants bonus Holy Essence and multipliers to related relics.</short>
+      <full>Liturgical Feasts are specific days in the Church calendar during which related relics glow with enhanced power. When a feast is active, matching relic rings pulse gold on the map, and any relic collected during the feast window grants bonus Holy Essence and a points multiplier. The game tracks the real calendar — today's date determines which feast (if any) is active. Major feasts include Good Friday, the Rito della Nivola (September 14), and the Feast of St. Ambrose (December 7).</full>
+    </term>
+
+    <term id="sacred-paths">
+      <word>Sacred Paths</word>
+      <short>The orange street network on the map — your pilgrim walks only along these routes.</short>
+      <full>Sacred Paths (Viae Sacrae) are the street routes your pilgrim follows during processions. Rather than walking straight through buildings, the avatar navigates along a hand-drawn graph of Milan's historic centro storico streets. The network was built to follow the actual paths between the major basilicas. In development mode, an editor tool allows adding and modifying path nodes by dragging them on the map.</full>
+    </term>
+
+    <term id="veiled-visions">
+      <word>Veiled Visions</word>
+      <short>Brief spiritual moments that appear during a procession — hints, Devotio bonuses, or whispers of Rome.</short>
+      <full>Veiled Visions (Visiones Velatas) are small narrative events that occur randomly during processions, roughly once every 40–80 steps. They appear as floating toast messages at the bottom of the map. Three types exist:
+— Devotio visions: grant bonus Devotio points and describe atmospheric moments on the path.
+— Hint visions: describe the spiritual atmosphere without any game bonus.
+— Rome Whispers: cryptic fragments hinting at the future Rome pilgrimage campaign, unlocked after all Milan relics are collected.</full>
+    </term>
+
+    <term id="chapel">
+      <word>Chapel</word>
+      <short>Your private reliquary where collected relics are displayed on the chapel wall.</short>
+      <full>The Reliquary Chapel (Capella Privata) is your personal sacred space, accessible via the ⛪ tab. Collected relics appear as illuminated slots on the chapel wall, grouped by veneration type (Latria / Hyperdulia / Dulia). The chapel's visual style upgrades as you collect more relics — from a plain pilgrim chapel to Romanesque, Gothic, and finally Baroque at full completion. The chapel also houses your Holy Essence balance, active buffs, and earned titles.</full>
+    </term>
+
+    <term id="codex">
+      <word>Codex</word>
+      <short>The theological encyclopedia of all relics — silhouettes until collected, full entries after.</short>
+      <full>The Reliquary Codex (📜 tab) lists every relic in the game. Uncollected relics appear as silhouettes — you can see their name and church but not their full theological record. Once collected, the full entry unlocks: three-axis classification, historical description, interesting fact, and liturgical data. Rome relics appear as locked silhouettes until the Rome Unlock sequence is triggered by completing all Milan relics.</full>
+    </term>
+
+    <term id="pilgrim-journey">
+      <word>Pilgrim's Journey</word>
+      <short>The five-step tutorial campaign that teaches all game mechanics through guided quests.</short>
+      <full>The Pilgrim's Journey (Iter Peregrinantis) is the five-quest tutorial campaign that every new player completes before accessing the full Quest Board. Each quest teaches a core mechanic: procession, collection, theological dignity, liturgical feasts, and the chapel. Completing all five quests earns Latin titles and unlocks the dynamic quest system. See the Tutorial Campaign section of this Help panel for step-by-step guidance.</full>
+    </term>
+
+  </glossary>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       GAME CONCEPTS — shown in the Help panel "Concepts" tab
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="concepts" title="Game Concepts">
+
+    <article id="overview" title="What is Relic Hunter?">
+      <body>Relic Hunter is a pilgrimage game set in Milan, Italy. You play as a medieval pilgrim walking the streets of the historic centre to venerate the city's most sacred relics.
+
+Unlike most games, progress requires physically walking your avatar along sacred street routes to each relic's church. There are no shortcuts — the journey is the point.
+
+At each shrine, you face a Theological Examination before the relic joins your collection. Your chapel fills as you collect, and completing all twelve Milan relics unlocks the next pilgrimage city: Rome.</body>
+    </article>
+
+    <article id="relic-categories" title="The Nine Relic Categories">
+      <body>Every relic belongs to one of nine material categories, shown by the colour of its ring on the map:
+
+— NAIL (dark red): Instruments of crucifixion — nails, thorns.
+— WOOD (dark brown): Fragments of the True Cross (Lignum Crucis).
+— THORN (dark green): Crown of Thorns fragments.
+— BLOOD (deep red): Relics of Holy Blood.
+— BODY (purple): Complete or major body parts of saints.
+— BONE (tan/gold): Bone fragments of saints.
+— CLOTH (blue): Vestments, shrouds, contact cloths.
+— MAGI (bright gold): Relics of the Three Kings.
+— INSTRUMENT (grey): Tools and objects from a saint's life or martyrdom.
+
+Category affects which quests and feasts apply to a relic, and which Veiled Visions are more likely during its procession.</body>
+    </article>
+
+    <article id="three-axis" title="The Three-Axis Classification">
+      <body>Each relic is classified along three theological axes, revealed during the Arrival Ceremony:
+
+AXIS 1 — MATERIAL: What the relic physically is (Osseous, Textile, Lignum, Metallic, etc.) and its specific sub-type (Bone fragment, Vertebra, Vestment, Nail, etc.).
+
+AXIS 2 — PROVENANCE: Where the relic comes from — its broad origin (Christological, Patristic, Apostolic, Biblical) and specific lineage (Ambrosian, Gervasian, Passion Instrument, Magi, etc.).
+
+AXIS 3 — THEOLOGICAL DIGNITY: The Church's hierarchical ranking (Primaria, Secundaria, Instrumenta Passionis) and the form of veneration due (Latria, Hyperdulia, Dulia).
+
+The full three-axis table is only shown for Primaria and Legendary relics during the Arrival Ceremony. All classifications are visible in the Codex after collection.</body>
+    </article>
+
+    <article id="economy" title="Holy Essence and Rewards">
+      <body>Holy Essence (Essentia Sacra ✦) is the game's sacred currency. You earn it by:
+
+— Collecting a relic: the relic's base point value.
+— Passing the Theological Examination: bonus for correct answers.
+— Completing a quest: the quest's Holy Essence reward.
+— During a Liturgical Feast: multiplied rewards for matching relics.
+
+Holy Essence accumulates in your pilgrim account displayed in the header. Future features will allow spending it to unlock privileges and travel to new cities.
+
+Latin titles are earned alongside Holy Essence rewards. They appear in your chapel and represent your growing theological reputation.</body>
+    </article>
+
+    <article id="quests" title="The Quest Board">
+      <body>The Quest Board (⚔ tab) shows your active pilgrimage objectives. During the tutorial, only the current tutorial quest appears. After the tutorial, the dynamic quest system generates three new quests daily.
+
+Quest types include:
+— Collectio: collect relics of a specific category.
+— Reconstitutio: reassemble the relics of a specific saint.
+— Pignora: collect relics of specific theological dignity ranks.
+— Instrumenta: collect passion instrument relics.
+— Patrocinium: collect relics of the local patron saint.
+
+Each quest has a progress bar, required count, and rewards (Holy Essence + title + optional miracle buff). When a quest is complete, a banner appears on the map. Navigate to the Quest Board to claim the reward manually. Quests do not auto-claim — the act of claiming is itself a pilgrimage ritual.
+
+The "→ Walk to objective" button automatically begins a procession to the nearest uncollected target relic.</body>
+    </article>
+
+    <article id="feasts" title="Liturgical Feasts">
+      <body>Liturgical Feasts are real Church calendar dates that affect gameplay. When a feast is active, matching relic rings pulse gold on the map, and their rewards are multiplied.
+
+The game tracks the real calendar date on your device. Current feast windows:
+— Good Friday (April 18 ±3 days): ×2.5 on Passion Instrument relics.
+— Rito della Nivola (September 14 ±3 days): ×3.0 on Passion relics — the highest multiplier in the game.
+— Inventio Crucis (May 3 ±3 days): ×2.0 on Passion relics.
+— Feast of St. Ambrose (December 7 ±3 days): ×1.5 on Ambrosian relics.
+— Epiphany (January 6 ±3 days): ×1.5 on Magi relics.
+— Assumption (August 15 ±7 days): ×2.0 on Marian relics.
+
+Tutorial quest 4 (In Festum Crucis) requires collecting during an active feast. If no feast is active when you reach that step, the game automatically advances to step 5.</body>
+    </article>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       TUTORIAL CAMPAIGN — shown in the Help panel "Tutorial" tab
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <tutorial title="The Pilgrim's Journey — Tutorial Campaign">
+
+    <intro>The Pilgrim's Journey is a five-quest introductory campaign that teaches every core game mechanic. You cannot access the full dynamic Quest Board until all five quests are completed. Each quest corresponds to one tutorial step (1–5), visible in the Quest Board under "Pilgrim's Journey".</intro>
+
+    <step num="1" id="initium" title="Initium Peregrinationis" reward="150 Holy Essence · Title: Peregrinus Primus">
+      <objective>Reach the NAIL relic (Santo Chiodo) at the Duomo and complete the first procession.</objective>
+      <howto>1. Open the Map tab. You will see a glowing ring at the Duomo (Piazza del Duomo). All other rings are dimmed — only the Santo Chiodo is your target.
+2. Tap the glowing ring. A teaser card slides up showing the relic name and distance.
+3. Tap "⚜ Begin Procession". Your pilgrim avatar starts walking along the sacred paths.
+4. Watch your pilgrim walk to the Duomo. Footstep sounds play; Devotio points accumulate.
+5. When the pilgrim arrives, the Arrival Ceremony begins automatically.
+6. The relic information is revealed. Tap "Begin Examination".
+7. Answer 3 questions (2 correct required). After each answer, an explanation is shown.
+8. Pass the exam → tap "Continue" or "Place in Chapel". The relic is now in your collection.
+9. The quest completes automatically. Your reward (150 Holy Essence + title) is added to your store.</howto>
+      <hint>The dark red ring at the Duomo glows brighter than the others — that is your target.</hint>
+    </step>
+
+    <step num="2" id="prima-collectio" title="Prima Collectio" reward="180 Holy Essence · Title: Collector Primus · Buff: +15% on Patristic relics (1h)">
+      <objective>Collect one BONE relic of Ambrosian provenance at the Basilica di Sant'Ambrogio.</objective>
+      <howto>1. The quest is now active. All ring dimming is lifted — you can explore freely.
+2. Navigate to Sant'Ambrogio (west of the Duomo, on Piazza Sant'Ambrogio).
+3. Look for bone-coloured (tan/gold) rings near the basilica.
+4. Tap a ring, begin procession, complete the arrival ceremony and examination.
+5. The quest checks automatically: if the collected relic is a BONE with Ambrosian provenance, the quest completes.
+6. Eligible relics: Sant'Ambrogio Body, Bones of the Holy Martyrs, Bones of St. Protasius, Vestments of St. Ambrose, Bones of St. Satyrus, Finger Bones of St. Victor.</howto>
+    </step>
+
+    <step num="3" id="dignitas" title="Dignitas Theologica" reward="220 Holy Essence · Title: Custos Dignitatis">
+      <objective>Collect one Primaria relic AND one Secundaria relic of Ambrosian provenance.</objective>
+      <howto>1. This quest teaches the Dignitas Theologica axis — the Church's hierarchy of relic types.
+2. You need two Ambrosian relics of different ranks. Their dignity rank is visible in the Codex after collection or in the Arrival Ceremony.
+3. Primaria Ambrosian relics (body parts): Sant'Ambrogio Body, Bones of Gervasius, Bones of Protasius, Bones of Satyrus, Finger Bones of Victor.
+4. Secundaria Ambrosian relics (vestments/objects): Vestments of St. Ambrose (Alb and Dalmatica).
+5. If you collected a Secundaria relic in quest 2, you now need a Primaria (or vice versa).
+6. Collect both → quest completes automatically.</howto>
+      <hint>Check the Codex (📜) to see which relics you have already collected and their dignity rank.</hint>
+    </step>
+
+    <step num="4" id="festum" title="In Festum Crucis" reward="280 Holy Essence · Title: Particeps Festi · Buff: ×1.5 on Passion relics (2h)">
+      <objective>Collect any INSTRUMENT or WOOD relic while a liturgical feast is active.</objective>
+      <howto>1. This quest teaches Liturgical Feasts. It is only achievable when a feast is active.
+2. Check the feast banner at the top of the Map screen — if a feast is active, it is described there.
+3. During the active feast, collect any relic in the INSTRUMENT or WOOD category.
+4. WOOD relics: True Cross Splinter (Duomo). INSTRUMENT relics: check the map for grey rings.
+5. If no feast is active when you reach this step, the game automatically skips to step 5 — you are not penalised.
+6. Feast windows are tied to the real calendar date. Good Friday (April 18 ±3 days) covers WOOD and INSTRUMENT relics.</howto>
+    </step>
+
+    <step num="5" id="capella" title="Capella Tua Prima" reward="200 Holy Essence · Title: Aedificator Capellae">
+      <objective>Open the Chapel with at least 3 relics collected.</objective>
+      <howto>1. This is the final tutorial step. It simply requires you to visit your chapel.
+2. Make sure you have collected at least 3 relics total (any relics).
+3. Tap the ⛪ Chapel tab in the bottom navigation.
+4. The chapel opens and displays your collected relics on the wall.
+5. The quest completes automatically upon opening — no further action needed.
+6. After this step, the full dynamic Quest Board unlocks with three new quests per day.</howto>
+      <hint>After collecting, tap the Chapel tab (⛪) and watch the relics settle into the wall.</hint>
+    </step>
+
+    <completion title="After the Tutorial">
+      <body>Completing all five tutorial quests unlocks the full Quest Board. Three new dynamic quests are generated each day, covering all nine relic categories and the full theological classification system.
+
+Your ultimate goal is to collect all 12 Milan relics. When the last relic is claimed, the Roma Vocat cinematic plays: "Omnia completa sunt. Roma Vocat." — and the Rome pilgrimage campaign is unlocked in the Codex.</body>
+    </completion>
+
+  </tutorial>
+
+</gameDoc>

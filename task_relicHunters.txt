@@ -1,0 +1,12 @@
+make plan and evaluate:
+
+- app for tourists that focuses on visiting relic locations. start in milano, italy first.
+- collect all famous relics in milano and assign categories to them (wood from cross, thorn, blood, bodypart etc) and relevant data plus location. dont spend too much time/tokens with deep research
+- they must be visualized by icons on a beautiful map (should look old/middleages/antique like)
+- for each relic, display some basic data plus interesting information (most have interesting history) - not too long
+- user then go there and set relic either via location on phone to 'collected' or manually (without proof).
+- when relic is collected, add a path on map from last collected relic. so user sees relic route at end of the day.
+- goal can be to collect all relics of 1 type in a city. or all of them, or at least 1 from each type. later goals can be (when other cities are also included) like "collect at least 30 wood pieces from jesus cross" etc.
+- app should be half serious/half fun
+- use this article as starting point: https://en.wikipedia.org/wiki/Relic#List_of_claimed_relics
+- write all results/plan down in _openPlanRelicHunter.md

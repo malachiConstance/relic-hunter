@@ -1,0 +1,181 @@
+// =====================================================
+// THEOLOGIA RELIQUIARUM QUEST GENERATOR v2.0
+// Dynamic quest engine using the THREE-AXIS classification
+// (Material + Provenance + Theological Dignity)
+// Supports all your examples: "collect all Osseous of class Y",
+// "reassemble St. Peter: 1 manus + 1 cranium + 1 pes", etc.
+// Fully procedural + seeded for daily/weekly events
+// =====================================================
+
+class QuestGenerator {
+
+    // Core data sources (injected from your game DB)
+    relicsDB: array of RelicJSON          // the full JSON you already have
+    playerCodex: map<relic_id, {collected: bool, count: int}>
+    
+    // Quest templates with Latin flair (expandable)
+    static TEMPLATES = [
+        {
+            type: "CATEGORY_SWEEP",
+            namePattern: "Collectio Omnia {material_class} {provenance_sub}",
+            description: "Gather every *Reliquia* of the *Forma Materialis* {material_class} belonging to the *Origo Sancta* {provenance_class}.",
+            target: "ALL",
+            filter: (r) => r.material_class === param.material_class && r.provenance_class === param.provenance_class,
+            rewardMultiplier: 1.5
+        },
+        {
+            type: "SAINT_REASSEMBLY",
+            namePattern: "Reconstitutio Corporis {provenance_sub}",
+            description: "Reassemble the *Corpus* of {saint}: at least 1 *manus*, 1 *cranium*, and 1 *pes* (*exuviae primariae*).",
+            target: "BODY_PART_SET",
+            filter: (r) => r.provenance_sub === param.provenance_sub && r.body_part_group !== null,
+            requiredGroups: ["Hand", "Head", "Foot"],   // exactly as in your original example
+            minPerGroup: 1,
+            rewardMultiplier: 2.8
+        },
+        {
+            type: "THEOLOGICAL_SET",
+            namePattern: "Pignora {theological_dignity} {provenance_class}",
+            description: "Collect the full set of *{theological_sub}* relics from the *{provenance_class}* class (*per decretum Tridentinum*).",
+            target: "DIGNITY_SET",
+            filter: (r) => r.theological_dignity === param.theological_dignity && r.provenance_class === param.provenance_class,
+            minCount: 5,   // configurable
+            rewardMultiplier: 2.2
+        },
+        {
+            type: "INSTRUMENTA_PASSIONIS",
+            namePattern: "Instrumenta Passionis Domini",
+            description: "Gather the sacred *Instrumenta* of the *Crucifixio* (*Clavus*, *Lancea*, *Lignum*, etc.)",
+            target: "PASSION_SPECIAL",
+            filter: (r) => r.theological_dignity === "Instrumenta Passionis",
+            minCount: 7,
+            rewardMultiplier: 3.5
+        },
+        {
+            type: "LOCAL_PATRON",
+            namePattern: "Ambroseana Mediolanensia",
+            description: "Complete the *Exuviae* of the *Patres Mediolanenses* in the Ambrosian Rite zone.",
+            target: "LOCAL_SET",
+            filter: (r) => r.provenance_class === "Patristic / Early Saint" && r.location_id.startsWith("milan_"),
+            rewardMultiplier: 1.8
+        }
+    ]
+
+    // MAIN GENERATION ENTRY POINT
+    function generateQuests(playerCodex, allRelics, count = 3, difficulty = "normal") {
+        let quests = []
+        let seed = Date.now() % 10000   // for reproducible daily quests
+
+        for (let i = 0; i < count; i++) {
+            let template = weightedRandomChoice(TEMPLATES, seed + i)   // bias toward incomplete sets
+
+            // 1. Pick parameters based on what player is MISSING
+            let params = selectSmartParameters(template, playerCodex, allRelics, difficulty)
+
+            // 2. Build the actual quest object
+            let quest = {
+                id: `quest_${template.type}_${params.hash}`,
+                type: template.type,
+                name: interpolate(template.namePattern, params),
+                description: interpolate(template.description, params) + " (*Theologia Reliquiarum*, lib. III)",
+                objective: buildObjective(template, params),
+                targetFilter: template.filter,
+                requiredCount: calculateRequiredCount(template, params, playerCodex),
+                progress: calculateCurrentProgress(template, params, playerCodex),
+                rewards: {
+                    holyEssence: Math.floor(350 * template.rewardMultiplier * difficultyScalar(difficulty)),
+                    title: generateLatinTitle(template, params),
+                    buff: randomMiracleBuff()   // e.g. "Benedictio Ambrosiana +25% XP"
+                },
+                expiresAt: template.type === "DAILY" ? "tomorrow" : null,
+                isRepeatable: false
+            }
+
+            // 3. Only add if player has partial progress (anti-grind)
+            if (quest.progress > 0 && quest.progress < 100) {
+                quests.push(quest)
+            }
+        }
+
+        return quests
+    }
+
+    // HELPER: Smart parameter selection (avoids quests player already finished)
+    function selectSmartParameters(template, playerCodex, allRelics, difficulty) {
+        let candidates = allRelics.filter(r => !isFullyCollected(r, playerCodex))  // only incomplete groups
+        
+        switch (template.type) {
+            case "SAINT_REASSEMBLY":
+                return pickRandomSaintWithMissingParts(candidates)   // e.g. {provenance_sub: "Petrine", missingGroups: ["Hand"]}
+            
+            case "CATEGORY_SWEEP":
+                return pickRandomMaterialProvenancePair(candidates)
+            
+            case "THEOLOGICAL_SET":
+                return pickRandomDignityProvenance(candidates)
+            
+            default:
+                return pickRandomRelevantParams(candidates, difficulty)
+        }
+    }
+
+    // OBJECTIVE BUILDER – turns axis data into human-readable tasks
+    function buildObjective(template, params) {
+        if (template.target === "BODY_PART_SET") {
+            return `At least ${params.minPerGroup} relic from each body_part_group: ${params.requiredGroups.join(", ")} of ${params.provenance_sub}`
+        }
+        if (template.target === "ALL") {
+            return `Collect ALL relics matching:\n• Material: ${params.material_class}\n• Provenance: ${params.provenance_class}`
+        }
+        // ... similar for other types using Latin terms
+        return `Gather ${params.minCount} *${params.theological_sub}* relics of the *${params.provenance_class}* class`
+    }
+
+    // PROGRESS CALCULATOR (real-time)
+    function calculateCurrentProgress(template, params, playerCodex) {
+        let matchingRelics = relicsDB.filter(template.filter.bind(null, params))  // apply filter
+        let collected = matchingRelics.filter(r => playerCodex[r.id]?.collected).length
+        
+        if (template.target === "BODY_PART_SET") {
+            // special logic for "1 hand + 1 head + 1 toe"
+            let groupsMet = countCompletedBodyGroups(params, playerCodex)
+            return Math.floor((groupsMet / params.requiredGroups.length) * 100)
+        }
+        
+        return Math.floor((collected / matchingRelics.length) * 100)
+    }
+
+    // UTILITY: Latin title generator
+    function generateLatinTitle(template, params) {
+        const titles = {
+            "SAINT_REASSEMBLY": `Reconstitutor Sancti ${params.provenance_sub}`,
+            "INSTRUMENTA_PASSIONIS": "Portitor Instrumentorum Passionis",
+            // add more...
+        }
+        return titles[template.type] || "Venator Reliquiarum"
+    }
+
+    // MIRACLE BUFF (theological gamification)
+    function randomMiracleBuff() {
+        const buffs = [
+            { name: "Benedictio Ambrosiana", effect: "+25% XP on all Patristic relics" },
+            { name: "Virtus Ligni Crucis", effect: "Double drop rate for Lignum relics (24h)" },
+            { name: "Intercessio Petri", effect: "+1 extra relic clue per hunt" }
+        ]
+        return randomChoice(buffs)
+    }
+}
+
+// =====================================================
+// EXAMPLE USAGE IN YOUR GAME LOOP
+// =====================================================
+onDailyReset() {
+    let newQuests = QuestGenerator.generateQuests(player.codex, relicsDB, 3, "normal")
+    player.activeQuests = newQuests
+    ui.showQuestBoard(newQuests)   // with glowing Latin titles
+}
+
+// onRelicCollected(relic) {
+//     QuestGenerator.updateAllProgress(player.codex)
+//     checkForCompletionAndGrantRewards()
+// }

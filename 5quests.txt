@@ -1,0 +1,183 @@
+// src/data/tutorialQuests.ts
+
+export const TUTORIAL_QUESTS = [
+  {
+    id: "tutorial_1_initium",
+    step: 1,
+    type: "TUTORIAL",
+    name: "Initium Peregrinationis",
+    description: "Salve, peregrine. Begin your sacred journey at the Duomo. The *Santo Chiodo* calls you.",
+    objective: "Reach the *NAIL* relic at the Duomo and complete the first procession.",
+    targetRelicIds: ["santo_chiodo"],           // use your actual relic IDs
+    requiredCategory: "NAIL",
+    progress: 0,
+    maxProgress: 1,
+    reward: {
+      holyEssence: 150,
+      title: "Peregrinus Primus",
+      miracleBuff: null
+    },
+    isCompleted: false,
+    hint: "The golden ring at the Duomo is glowing brighter than the others…"
+  },
+
+  {
+    id: "tutorial_2_prima_collectio",
+    step: 2,
+    type: "TUTORIAL",
+    name: "Prima Collectio",
+    description: "Now seek a *BONE* relic of the holy bishop Ambrose at the Basilica of Sant’Ambrogio.",
+    objective: "Collect one *BONE* relic (*Ossa Sancti Ambrosii* or associated).",
+    targetCategory: "BONE",
+    targetProvenance: "Ambrosian",
+    progress: 0,
+    maxProgress: 1,
+    reward: {
+      holyEssence: 180,
+      title: "Collector Primus",
+      miracleBuff: { name: "Benedictio Ambrosiana", duration: 3600, effect: "+15% on Patristic relics" }
+    },
+    isCompleted: false
+  },
+
+  {
+    id: "tutorial_3_dignitas",
+    step: 3,
+    type: "TUTORIAL",
+    name: "Dignitas Theologica",
+    description: "Reassemble the first pieces of St. Ambrose. Learn the ranks of *Dignitas Theologica*.",
+    objective: "Collect at least two relics of St. Ambrose: one *Primaria* (body/bone) and one *Secundaria* (vestment).",
+    targetProvenance: "Ambrosian",
+    requiredDignityTypes: ["Primaria", "Secundaria"],
+    progress: 0,
+    maxProgress: 2,
+    reward: {
+      holyEssence: 220,
+      title: "Custos Dignitatis",
+      miracleBuff: null
+    },
+    isCompleted: false,
+    hint: "Look for relics marked with *Primaria* or *Secundaria* in the teaser card."
+  },
+
+  {
+    id: "tutorial_4_festum",
+    step: 4,
+    type: "TUTORIAL",
+    name: "In Festum Crucis",
+    description: "Today is within the sacred window of *Good Friday*. The *Instrumenta Passionis* shine brighter.",
+    objective: "Collect any *INSTRUMENT* or *WOOD* relic while the feast bonus is active.",
+    targetCategories: ["INSTRUMENT", "WOOD"],
+    requiresActiveFeast: true,        // your liturgical system already knows Good Friday
+    progress: 0,
+    maxProgress: 1,
+    reward: {
+      holyEssence: 280,               // feast multiplier will be applied on top
+      title: "Particeps Festi",
+      miracleBuff: { name: "Virtus Crucis", duration: 7200, effect: "×1.5 on Passion relics today" }
+    },
+    isCompleted: false
+  },
+
+  {
+    id: "tutorial_5_capella",
+    step: 5,
+    type: "TUTORIAL",
+    name: "Capella Tua Prima",
+    description: "Return to your private chapel and venerate what you have gathered.",
+    objective: "Open the Chapel screen and place at least 3 collected relics into their proper wall slots.",
+    requiredCollectionCount: 3,
+    progress: 0,
+    maxProgress: 3,
+    reward: {
+      holyEssence: 200,
+      title: "Aedificator Capellae",
+      miracleBuff: null
+    },
+    isCompleted: false,
+    hint: "After collecting, tap the Chapel tab (⛪) and watch the relics settle into the wall."
+  }
+];
+
+2. How to Integrate into Your Existing Code (Step-by-step)
+Step 1: Add to Zustand store
+In your main store add:
+TypeScripttutorialStep: 0,                    // 0 = not started, 1–5 = current step
+activeTutorialQuest: null as any,   // or the current quest object
+Step 2: Modify QuestGenerator.ts
+Add this near the top of generateQuests() or in a new getActiveQuests() function:
+TypeScriptimport { TUTORIAL_QUESTS } from '../data/tutorialQuests';
+
+export function getCurrentQuests(state: GameState) {
+  const { tutorialStep, collected } = state;
+
+  if (tutorialStep < 5) {
+    const currentTutorial = TUTORIAL_QUESTS.find(q => q.step === tutorialStep + 1);
+    if (currentTutorial) {
+      // auto-update progress based on current collection
+      const updated = updateTutorialProgress(currentTutorial, collected);
+      return [updated];                    // only show the current tutorial quest
+    }
+  }
+
+  // After tutorial → normal dynamic quests
+  return generateDynamicQuests(state);
+}
+Step 3: Progress updater (add this helper)
+TypeScriptfunction updateTutorialProgress(quest: any, collected: string[]) {
+  let newProgress = 0;
+
+  if (quest.targetRelicIds) {
+    newProgress = quest.targetRelicIds.filter(id => collected.includes(id)).length;
+  } else if (quest.targetCategory) {
+    newProgress = collected.filter(id => 
+      relics.find(r => r.id === id)?.category === quest.targetCategory
+    ).length;
+  } else if (quest.requiredCollectionCount) {
+    newProgress = Math.min(collected.length, quest.requiredCollectionCount);
+  }
+
+  return { ...quest, progress: newProgress, isCompleted: newProgress >= quest.maxProgress };
+}
+Step 4: On relic collection (in your collect(relicId) function)
+TypeScript// After normal collection logic
+const currentStep = get().tutorialStep;
+if (currentStep < 5) {
+  const quest = TUTORIAL_QUESTS.find(q => q.step === currentStep + 1);
+  if (quest && checkIfTutorialQuestCompleted(quest, get().collected)) {
+    completeTutorialStep(currentStep + 1);
+  }
+}
+Step 5: Completion handler
+TypeScriptfunction completeTutorialStep(newStep: number) {
+  set({ 
+    tutorialStep: newStep,
+    // show nice toast: "*Questus completus!* + Holy Essence"
+  });
+
+  if (newStep === 5) {
+    // Final tutorial reward + unlock full Quest Board
+    showConfettiOrParticles();
+    // Optional: auto-open Chapel for the last quest
+  }
+}
+6. How the Player Experiences It (Concrete Flow)
+
+First launch → Tutorial Quest 1 appears on Quest Board with big glowing border.
+Only the Santo Chiodo ring is highlighted on the map. Everything else is dim.
+Tap → see teaser only → Begin Procession → short walk → spectacular arrival ceremony (you already have the animation code).
+After collecting the Nail → Tutorial Quest 2 unlocks automatically.
+Now the player knows they must walk to Sant’Ambrogio for a BONE relic.
+Quest 3 teaches the three-axis system by requiring Primaria + Secundaria.
+Quest 4 uses today’s real Good Friday feast as the example.
+Quest 5 forces the player into the Chapel so they understand where relics actually live.
+
+By the end of these 5 quests the player has:
+
+Walked 4–6 processions
+Seen teasers vs full reveals
+Understood categories, dignity, feasts, and the Chapel
+Earned their first Latin titles
+Felt the TA-DAAAA moment multiple times
+
+After step 5 the normal dynamic Quest Board (your existing 3 quests) takes over, and Rome silhouettes start to “whisper”.

@@ -1,0 +1,53 @@
+The **Theological Dignity System** in your relic-hunting game is a game mechanic deeply rooted in historic Catholic theology of relics (*reliquiae*). It adds a third independent classification axis that elevates the entire system from simple collection to something that feels like a digital *Theologia Reliquiarum* — a scholastic treatise on holy pledges (*pignora sancta*).
+
+### Core Idea: Proximity to the Holy & Proper Veneration
+In real Catholic tradition, relics are not worshipped as idols. They are venerated because they once belonged to or were intimately connected with a saint (or Christ), whose body was a “temple of the Holy Ghost” (1 Cor 6:19) and will one day be glorified. The honor passes *through* the relic to the person it represents.
+
+The Church traditionally divides relics into **three classes** based on their closeness to the holy person:
+
+- **First-Class (Primaria)**: Actual physical remains of a saint (*exuviae corporis* — body parts: bones, hair, blood, flesh) or, in the case of Christ, direct instruments/objects from His life and Passion (True Cross, nails, thorns, etc.). These are the most intimate and powerful.
+- **Second-Class (Secundaria)**: Objects that the saint personally owned or used (*instrumenta vitae* or *ex indumentis* — clothing, books, tools, chains, vestments, etc.).
+- **Third-Class (Tertiaria)**: Any object that has been touched to a first- or second-class relic (*brandea* or contact relics — cloths, oils, medals, prayer cards, etc.). These “borrow” sanctity through physical contact.
+
+This classification was affirmed and regulated by the **Council of Trent** (Session XXV, 1563), which defended the veneration of relics against Reformation criticisms while condemning superstition and commercial abuse. Trent taught that the holy bodies of saints “are to be venerated by the faithful, through which many benefits are bestowed by God on men.”
+
+**St. Thomas Aquinas** (*Summa Theologica*) explains the underlying principle: honor given to relics is *cultus duliae relativae* — a relative veneration that does not stop at the material object but refers to the saint (or Christ). God sometimes works miracles “in their presence” as a sign of approval.
+
+### The Three Types of Honor (Cultus) in Catholic Theology
+Your system elegantly maps these onto the relics:
+
+- **Latria** (from Greek *latreia*): Adoration/worship due to **God alone** (the Trinity and, by extension, Christ’s divinity). In the game, this applies exclusively to **Christological** relics that are direct *Instrumenta Passionis* (Holy Nail, True Cross fragments, Crown of Thorns, Holy Lance, Titulus Crucis, etc.). These receive the highest dignity because they touch the God-Man Himself.
+- **Hyperdulia**: A heightened form of veneration reserved for the **Blessed Virgin Mary** (*Deipara* / Mother of God). In your current relic list this is rare (no Marian examples yet), but you could add it for future expansions (e.g., fragments of her veil or robe).
+- **Dulia**: The standard veneration given to saints and angels. This is the default for almost all Apostolic, Patristic, and Later Saint relics.
+
+In-game, the **veneration_type** field (Latria / Hyperdulia / Dulia) determines visual effects, buffs, and quest flavor:
+- Latria relics glow with golden divine light and grant the strongest miracle buffs.
+- Dulia relics have a softer, reverent aura.
+
+### How the Full Theological Dignity Axis Works in Your Game
+Every relic now has:
+
+| Field                    | Example Values                                      | Real-World Parallel                          | Game Effect |
+|--------------------------|-----------------------------------------------------|----------------------------------------------|-------------|
+| **theological_dignity** | Primaria / Secundaria / Tertiaria / Instrumenta Passionis | The three traditional classes + special Passion category | Determines rarity weighting and set-completion value |
+| **theological_sub**     | Exuviae Corporis / Instrumenta Vitae / Brandea / Primaria (Latria) | Body parts vs. used objects vs. touched objects | Granular filtering for quests |
+| **veneration_type**     | Latria / Dulia                                      | Worship vs. veneration                       | Visuals, audio (Latin chant intensity), and buff strength |
+
+**Special Rule for Christological Relics**  
+Even a “second-class” object tied to the Passion (e.g., a cloth that touched the Cross) can still carry **Latria** because the honor ultimately refers to Christ’s divinity. That is why your *Santo Chiodo*, *Lancea Longini*, and *Lignum Crucis* are marked **Instrumenta Passionis (Primaria – Latria)**.
+
+### Why This Makes the Game Deeper & More Immersive
+- **Quest Logic** becomes profoundly theological: “Reassemble the *Corpus Petri* with at least three *exuviae primariae* under *Dulia Apostolica*” or “Collect five *Instrumenta Passionis* of *Latria* dignity.”
+- **Progression & Sets** gain meaning: Completing a full Primaria set of a saint grants an “intercession buff” flavored as *Benedictio Sancti* (e.g., +XP on all relics of that provenance).
+- **Lore & Codex Entries** read like excerpts from the *Acta Sanctorum* or Aquinas: players feel they are participating in the *communio sanctorum* (communion of saints).
+- **Balance**: Tertiaria (*brandea*) relics are common and easy to find → good for early-game volume and procedural generation. Primaria + Latria are rare and legendary → end-game rewards and global events.
+
+### Quick Examples from Your Existing Relic JSON
+- **Santo Chiodo**: theological_dignity = Instrumenta Passionis, theological_sub = Primaria (Latria), veneration_type = Latria → Highest prestige.
+- **Cranium Sancti Ambrosii**: Primaria, Exuviae Corporis, Dulia → Classic first-class body relic.
+- **Catenae Petri**: Secundaria, Instrumenta Vitae, Dulia → Second-class object the Apostle actually used.
+- **Velum Veronicae**: Instrumenta Passionis, Secundaria (Latria) → Touches Christ directly, so elevated veneration.
+
+This axis turns relic hunting into a respectful, educational, and addictive theological treasure hunt. Players will naturally absorb real concepts like *exuviae*, *brandea*, *cultus duliae*, and the distinction between adoration and veneration while chasing set bonuses.
+
+If you want to expand it further (add Hyperdulia for Marian relics, incorruptio miracles, or liturgical feast triggers), or generate new quests that heavily reference the dignity system, just say so. *Deo gratias pro reliquiis sanctis!*
