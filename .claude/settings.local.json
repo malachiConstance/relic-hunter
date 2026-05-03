@@ -19,7 +19,11 @@
       "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" add -A)",
       "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" rm -r --cached -q .)",
       "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" status --short)",
-      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" rm -rf --cached -q .)"
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" rm -rf --cached -q .)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" commit -m \"Initial commit\")",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" log --oneline)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" add .claude/settings.local.json)",
+      "Bash(git -C \"C:/Users/daniel.norek.VL1016/Desktop/projects/20260409reliqiuenHunter\" commit -m \"Update Claude Code local settings\")"
     ]
   }
 }
