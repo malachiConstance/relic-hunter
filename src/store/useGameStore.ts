@@ -22,7 +22,7 @@ export function procesionFervorCost(relicPoints: number): number {
 }
 
 export const MAX_FERVOR = 100
-export const ACTIVE_LEADS_MAX = 2
+export const ACTIVE_LEADS_MAX = 8
 export const MIN_FERVOR_AFTER_ROBBERY = 8
 
 interface GameState {
@@ -90,6 +90,7 @@ interface GameState {
   lastEncounterByPlace: Record<string, string>
   // Pending encounter result (ephemeral — set during rest, cleared when dismissed)
   pendingEncounter: Encounter | null
+  pendingEncounterRevealApplied: boolean
   // Pending robbery event (set alongside pendingEncounter for robbery outcomes)
   pendingRobbery: RobberyEvent | null
 
@@ -185,6 +186,7 @@ export const useGameStore = create<GameState>()(
       resolvedFalseLeads: [],
       lastEncounterByPlace: {},
       pendingEncounter: null,
+      pendingEncounterRevealApplied: false,
       pendingRobbery: null,
       walkingToCoord: null,
       walkingDestPlaceId: null,
@@ -501,24 +503,26 @@ export const useGameStore = create<GameState>()(
         const encounter = getEncounter(encounterId)
         if (!encounter) return
 
+        const revealApplied = !!(encounter.reveal && leadCount < ACTIVE_LEADS_MAX)
+
         set(state => ({
           lastEncounterByPlace: { ...state.lastEncounterByPlace, [placeId]: encounterId },
           pendingEncounter: encounter,
+          pendingEncounterRevealApplied: revealApplied,
         }))
 
-        // Apply reveal only if encounter has a reveal AND we have room for more leads
-        if (encounter.reveal && leadCount < ACTIVE_LEADS_MAX) {
-          if (encounter.reveal.relicId) {
-            get().revealRelic(encounter.reveal.relicId)
+        if (revealApplied) {
+          if (encounter.reveal!.relicId) {
+            get().revealRelic(encounter.reveal!.relicId)
           }
-          if (encounter.reveal.placeId) {
-            get().revealPlace(encounter.reveal.placeId)
+          if (encounter.reveal!.placeId) {
+            get().revealPlace(encounter.reveal!.placeId)
           }
         }
       },
 
       dismissEncounter() {
-        set({ pendingEncounter: null, pendingRobbery: null })
+        set({ pendingEncounter: null, pendingEncounterRevealApplied: false, pendingRobbery: null })
       },
 
       activeLeadCount() {
@@ -605,6 +609,7 @@ export const useGameStore = create<GameState>()(
           resolvedFalseLeads: [],
           lastEncounterByPlace: {},
           pendingEncounter: null,
+          pendingEncounterRevealApplied: false,
           pendingRobbery: null,
           walkingToCoord: null,
           walkingDestPlaceId: null,
@@ -612,7 +617,7 @@ export const useGameStore = create<GameState>()(
       },
     }),
     {
-      name: 'relic-hunter-game-v2',
+      name: 'relic-hunter-game-v3',
       // processingRelicId, teaserRelicId, ceremonyRelicId are ephemeral — never persist
       partialize: (state: GameState) => ({
         collected: state.collected,

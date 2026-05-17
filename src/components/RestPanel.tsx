@@ -43,6 +43,7 @@ export function RestPanel({ placeId, onClose }: Props) {
   const pilgrimLng = useGameStore(s => s.pilgrimLng)
   const enterPlace = useGameStore(s => s.enterPlace)
   const pendingEncounter = useGameStore(s => s.pendingEncounter)
+  const pendingEncounterRevealApplied = useGameStore(s => s.pendingEncounterRevealApplied)
   const pendingRobbery = useGameStore(s => s.pendingRobbery)
   const dismissEncounter = useGameStore(s => s.dismissEncounter)
   const beginWalk = useGameStore(s => s.beginWalk)
@@ -191,7 +192,7 @@ export function RestPanel({ placeId, onClose }: Props) {
                 </blockquote>
 
                 {/* Reveal result */}
-                {newRelic && !isFalseLeadReveal && (
+                {newRelic && !isFalseLeadReveal && pendingEncounterRevealApplied && (
                   <div className="rest-panel-reveal">
                     <span className="rest-panel-reveal-icon">✦</span>
                     <span>
@@ -199,7 +200,7 @@ export function RestPanel({ placeId, onClose }: Props) {
                     </span>
                   </div>
                 )}
-                {newPlace && !isFalseLeadReveal && (
+                {newPlace && !isFalseLeadReveal && pendingEncounterRevealApplied && (
                   <div className="rest-panel-reveal">
                     <span className="rest-panel-reveal-icon">✦</span>
                     <span>
