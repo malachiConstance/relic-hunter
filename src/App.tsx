@@ -11,20 +11,39 @@ import { GoalsPanel } from './components/GoalsPanel'
 import { CodexEntry } from './components/CodexEntry'
 import { QuestBoard } from './components/QuestBoard'
 import { ReliquaryChapel } from './components/ReliquaryChapel'
+import { RestPanel } from './components/RestPanel'
+import { IntroScreen } from './components/IntroScreen'
 import { useCollection } from './hooks/useCollection'
-import { useGameStore } from './store/useGameStore'
+import { useGameStore, MAX_FERVOR } from './store/useGameStore'
 import { MILAN_RELICS, RELICS, type Relic } from './data/relics'
+import { REST_PLACES } from './data/restPlaces'
 import { getActiveFeastToday } from './data/liturgicalCalendar'
 import './App.css'
 
 type Screen = 'map' | 'codex' | 'quests' | 'chapel'
 
+const ALL_PLACE_IDS = ['castello-sforzesco', 'san-maurizio', 'san-marco', 'san-pietro-gessate', 'san-calimero', 'locanda-falcone', 'osteria-pellegrini', 'bettolino-vetra']
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('map')
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [showGoals, setShowGoals] = useState(false)
+  const [restPlaceId, setRestPlaceId] = useState<string | null>(null)
+  const visitedPlaceIds = useGameStore(s => s.visitedPlaceIds)
+  const [showIntro, setShowIntro] = useState(() => {
+    const s = useGameStore.getState()
+    return s.tutorialStep <= 1 && s.collected.length === 0 && s.visitedPlaceIds.length === 0
+  })
   const { collected } = useCollection()
   const holyEssence = useGameStore(s => s.holyEssence)
+  const fervor = useGameStore(s => s.fervor)
+  const pilgrimLat = useGameStore(s => s.pilgrimLat)
+  const pilgrimLng = useGameStore(s => s.pilgrimLng)
+  const walkingToCoord = useGameStore(s => s.walkingToCoord)
+  const walkingDestPlaceId = useGameStore(s => s.walkingDestPlaceId)
+  const knownPlaceIds = useGameStore(s => s.knownPlaceIds)
+  const beginWalk = useGameStore(s => s.beginWalk)
+  const walkingFervorCost = useGameStore(s => s.walkingFervorCost)
   const activeQuests = useGameStore(s => s.activeQuests)
   const activeFeast = getActiveFeastToday()
 
@@ -43,11 +62,41 @@ export default function App() {
     prevRomeUnlocked.current = romeUnlocked
   }, [romeUnlocked])
 
-  // On first load: if player has collected relics but tutorial isn't started, skip tutorial
+  // After a walk completes to a place, auto-open the rest panel
+  const prevWalkingDestPlaceId = useRef<string | null>(null)
   useEffect(() => {
-    if (tutorialStep === 0) {
-      const storeCollected = useGameStore.getState().collected
-      useGameStore.setState({ tutorialStep: storeCollected.length > 0 ? 6 : 1 })
+    const prev = prevWalkingDestPlaceId.current
+    prevWalkingDestPlaceId.current = walkingDestPlaceId
+    if (prev !== null && walkingDestPlaceId === null) {
+      setTeaserRelic(null)
+      setRestPlaceId(prev)
+    }
+  }, [walkingDestPlaceId])
+
+  // On first load: initialise tutorial step and migrate discovery system for existing players.
+  useEffect(() => {
+    const state = useGameStore.getState()
+    const hasProgress = state.collected.length > 0
+    // Migrate any player who has collected relics but hasn't had the discovery system initialised
+    // (knownRelicIds still at its seed of 1 entry means they're a pre-discovery-system save).
+    const needsDiscoveryMigration = hasProgress && state.knownRelicIds.length <= 1
+    if (state.tutorialStep === 0) {
+      if (hasProgress) {
+        useGameStore.setState({
+          tutorialStep: 6,
+          knownRelicIds: MILAN_RELICS.map(r => r.id),
+          knownPlaceIds: ALL_PLACE_IDS,
+          fervor: 80,
+        })
+      } else {
+        useGameStore.setState({ tutorialStep: 1 })
+      }
+    } else if (needsDiscoveryMigration) {
+      useGameStore.setState({
+        knownRelicIds: MILAN_RELICS.map(r => r.id),
+        knownPlaceIds: ALL_PLACE_IDS,
+        fervor: Math.max(state.fervor, 60),
+      })
     }
   }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -56,17 +105,38 @@ export default function App() {
   ).length
   const completableCount = activeQuests.filter(q => q.isCompleted).length
 
+  // Find the nearest known rest place within 120m (show "rest here" button)
+  function haversineM(a: [number, number], b: [number, number]): number {
+    const R = 6371000
+    const dLat = (b[0] - a[0]) * Math.PI / 180
+    const dLng = (b[1] - a[1]) * Math.PI / 180
+    const s = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) * Math.sin(dLng / 2) ** 2
+    return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s))
+  }
+  const nearbyPlace = REST_PLACES.find(p =>
+    !p.isFalseLead &&
+    knownPlaceIds.includes(p.id) &&
+    haversineM([pilgrimLat, pilgrimLng], p.coord) <= 120,
+  )
+
   return (
     <div className="app">
       {/* Header */}
       <header className="app-header">
         <div className="header-left">
-          <h1 className="app-title">⚜ Relic Hunter</h1>
+          <h1 className="app-title">⚜ I Predatori delle Reliquie Sacre</h1>
           <span className="app-city">
             {screen === 'map' ? 'Milano, Italia' : screen === 'codex' ? 'Reliquary Codex' : screen === 'quests' ? 'Quest Board' : 'Chapel'}
           </span>
         </div>
         <div className="header-right">
+          <span className="header-fervor" title="Fervor Spiritalis — spiritual energy">
+            <span className="fervor-icon">♦</span>
+            <span className="fervor-value">{fervor}</span>
+            <div className="fervor-bar-mini">
+              <div className="fervor-bar-fill-mini" style={{ width: `${(fervor / MAX_FERVOR) * 100}%` }} />
+            </div>
+          </span>
           <span className="header-essence">
             <GlossaryTooltip termId="holy-essence">
               <span className="essence-icon">✦</span>
@@ -98,7 +168,10 @@ export default function App() {
         {/* MAP SCREEN */}
         {screen === 'map' && (
           <div className="map-container">
-            <Map onRelicClick={relic => setTeaserRelic(relic.id)} />
+            <Map
+              onRelicClick={relic => { setRestPlaceId(null); setTeaserRelic(relic.id) }}
+              onPlaceClick={placeId => { setTeaserRelic(null); setRestPlaceId(placeId) }}
+            />
 
             <div className="map-legend">
               <div className="legend-title">Categories</div>
@@ -117,6 +190,22 @@ export default function App() {
                 </div>
               ))}
             </div>
+
+            {/* Contextual "Rest here" button — hidden when any modal is open */}
+            {nearbyPlace && !walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && screen === 'map' && (
+              <button
+                className="map-rest-here-btn"
+                onClick={() => setRestPlaceId(nearbyPlace.id)}
+              >
+                <span className="map-rest-here-icon">
+                  {nearbyPlace.type === 'tavern' ? '⚱' : nearbyPlace.type === 'kloster' ? '✝' : '⛪'}
+                </span>
+                <span className="map-rest-here-text">
+                  {nearbyPlace.type === 'tavern' ? 'Enter tavern' : 'Rest here'}
+                  <em>{nearbyPlace.name}</em>
+                </span>
+              </button>
+            )}
 
             {/* Quest progress indicator on map */}
             {(pendingQuestCount > 0 || completableCount > 0) && (
@@ -174,12 +263,26 @@ export default function App() {
         <ArrivalCeremony
           relicId={ceremonyRelicId}
           onNavigateToChapel={() => setScreen('chapel')}
+          onCancel={() => useGameStore.getState().cancelCeremony()}
         />
       )}
 
       {/* Relic detail card (overlay — accessed via teaser "View full record") */}
       {selectedRelic && !teaserRelicId && !ceremonyRelicId && (
         <RelicCard relic={selectedRelic} onClose={() => setSelectedRelic(null)} />
+      )}
+
+      {/* Arrival intro screen (new game only) */}
+      {showIntro && !restPlaceId && (
+        <IntroScreen
+          onRest={() => { setShowIntro(false); setRestPlaceId('castello-sforzesco') }}
+          onExplore={() => setShowIntro(false)}
+        />
+      )}
+
+      {/* Rest place panel */}
+      {restPlaceId && !ceremonyRelicId && !teaserRelicId && (
+        <RestPanel placeId={restPlaceId} onClose={() => setRestPlaceId(null)} />
       )}
 
       {/* Vision toast (during procession) */}
