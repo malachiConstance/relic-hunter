@@ -3383,6 +3383,20 @@ body {
   opacity: 0.8;
 }
 
+.intro-castle-art {
+  margin: -32px -28px 20px;
+  border-bottom: 2px solid var(--gold);
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  background: var(--parchment-dark);
+}
+
+.castle-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .intro-title-block {
   margin-bottom: 24px;
 }

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const CASTLE_IMG = '/castello-sforzesco.jpg'
+
 interface Props {
   onRest: () => void      // opens castello rest panel
   onExplore: () => void   // dismisses intro, player explores map
@@ -7,6 +9,7 @@ interface Props {
 
 export function IntroScreen({ onRest, onExplore }: Props) {
   const [dismissed, setDismissed] = useState(false)
+  const [imgFailed, setImgFailed] = useState(false)
 
   if (dismissed) return null
 
@@ -23,7 +26,17 @@ export function IntroScreen({ onRest, onExplore }: Props) {
   return (
     <div className="intro-overlay">
       <div className="intro-card">
-        <div className="intro-illumination">✦</div>
+        {!imgFailed && (
+          <div className="intro-castle-art">
+            <img
+              className="castle-art"
+              src={CASTLE_IMG}
+              alt="The Castello Sforzesco"
+              onError={() => setImgFailed(true)}
+            />
+          </div>
+        )}
+        {imgFailed && <div className="intro-illumination">✦</div>}
         <div className="intro-title-block">
           <div className="intro-subtitle">Anno Domini MCCCCLXX · Milano</div>
           <h1 className="intro-title">Castello Sforzesco</h1>
