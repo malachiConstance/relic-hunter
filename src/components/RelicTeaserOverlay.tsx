@@ -1,5 +1,5 @@
 import { RELICS, CATEGORY_COLORS, CATEGORY_LABELS } from '../data/relics'
-import { useGameStore } from '../store/useGameStore'
+import { useGameStore, procesionFervorCost } from '../store/useGameStore'
 import { TUTORIAL_QUESTS } from '../data/tutorialQuests'
 
 interface Props {
@@ -25,17 +25,31 @@ export function RelicTeaserOverlay({ relicId, onClose, onViewFull }: Props) {
   const tutorialStep = useGameStore(s => s.tutorialStep)
   const beginProcession = useGameStore(s => s.beginProcession)
   const setTeaserRelic = useGameStore(s => s.setTeaserRelic)
+  const fervor = useGameStore(s => s.fervor)
+  const beginWalk = useGameStore(s => s.beginWalk)
+  const walkingFervorCost = useGameStore(s => s.walkingFervorCost)
 
   if (!relic) return null
 
   const color = CATEGORY_COLORS[relic.category]
   const dist = distanceM(pilgrimLat, pilgrimLng, relic.lat, relic.lng)
   const isBusy = processingRelicId !== null
+  const fervorCost = procesionFervorCost(relic.points)
+  const canAfford = fervor >= fervorCost
+  const walkCost = walkingFervorCost([pilgrimLat, pilgrimLng], [relic.lat, relic.lng])
+  const canWalk = fervor >= walkCost
 
   const tutorialHint = tutorialStep === 1 ? TUTORIAL_QUESTS[0].hint : null
 
   function handleBeginProcession() {
+    if (!canAfford) return
     beginProcession(relicId)
+    setTeaserRelic(null)
+  }
+
+  function handleWalk() {
+    if (!canWalk) return
+    beginWalk([relic!.lat, relic!.lng])
     setTeaserRelic(null)
   }
 
@@ -78,6 +92,15 @@ export function RelicTeaserOverlay({ relicId, onClose, onViewFull }: Props) {
         {isCollected ? (
           <>
             <div className="teaser-collected-badge">✦ Already venerated</div>
+            <div className="teaser-distance">{dist < 1000 ? `${dist} m` : `${(dist / 1000).toFixed(1)} km`} away</div>
+            <button
+              className="teaser-btn-walk"
+              style={{ width: '100%', margin: '8px 0' }}
+              disabled={isBusy || !canWalk}
+              onClick={handleWalk}
+            >
+              ⚑ Walk there<span className="teaser-btn-cost">−{walkCost} Fervor</span>
+            </button>
             <button className="teaser-link" onClick={onViewFull}>View full record →</button>
           </>
         ) : (
@@ -88,13 +111,37 @@ export function RelicTeaserOverlay({ relicId, onClose, onViewFull }: Props) {
               <div className="teaser-hint"><em>{tutorialHint}</em></div>
             )}
 
-            <button
-              className="teaser-btn-procession"
-              disabled={isBusy}
-              onClick={handleBeginProcession}
-            >
-              ⚜ Begin Procession
-            </button>
+            <div className="teaser-fervor-cost">
+              <span className="teaser-fervor-label">Fervor required:</span>
+              <span className={`teaser-fervor-val ${canAfford ? '' : 'teaser-fervor-insufficient'}`}>
+                {fervorCost} / {fervor}
+              </span>
+            </div>
+
+            {!canAfford && (
+              <div className="teaser-fervor-warning">
+                Insufficient Fervor. Rest at a church, kloster, or tavern first.
+              </div>
+            )}
+
+            <div className="teaser-action-row">
+              <button
+                className="teaser-btn-walk"
+                disabled={isBusy || !canWalk}
+                onClick={handleWalk}
+                title={`Walk to this church (−${walkCost} Fervor, no collection)`}
+              >
+                ⚑ Walk there<span className="teaser-btn-cost">−{walkCost}</span>
+              </button>
+              <button
+                className="teaser-btn-procession"
+                disabled={isBusy || !canAfford}
+                onClick={handleBeginProcession}
+                title={`Full procession — collect the relic (−${fervorCost} Fervor)`}
+              >
+                ⚜ Procession<span className="teaser-btn-cost">−{fervorCost}</span>
+              </button>
+            </div>
 
             <button className="teaser-link" onClick={onViewFull}>
               See full record in Codex →

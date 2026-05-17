@@ -97,34 +97,32 @@ function QuestCard({ quest, onClaim, onWalk }: { quest: Quest; onClaim: (id: str
         <div className="quest-incorruptio">✶ Incorruptio miracle upon completion</div>
       )}
 
-      {/* Progress */}
-      <div className="quest-progress">
-        <div className="quest-progress-label">
-          {quest.currentCount} / {quest.requiredCount}
-          {quest.type === 'SAINT_REASSEMBLY' ? ' body groups' : ' relics'}
+      <div className="quest-bottom-grid">
+        {/* Progress */}
+        <div className="quest-progress">
+          <div className="quest-progress-label">
+            {quest.currentCount} / {quest.requiredCount}
+            {quest.type === 'SAINT_REASSEMBLY' ? ' groups' : ' relics'}
+          </div>
+          <div className="quest-progress-track">
+            <div
+              className="quest-progress-fill"
+              style={{ width: `${quest.progressPercent}%`, background: progressColor }}
+            />
+          </div>
+          <div className="quest-progress-pct">{quest.progressPercent}%</div>
         </div>
-        <div className="quest-progress-track">
-          <div
-            className="quest-progress-fill"
-            style={{ width: `${quest.progressPercent}%`, background: progressColor }}
-          />
-        </div>
-        <div className="quest-progress-pct">{quest.progressPercent}%</div>
-      </div>
 
-      {/* Rewards */}
-      <div className="quest-rewards">
-        <div className="quest-rewards-label">Rewards</div>
-        <div className="quest-rewards-body">
-          <span className="quest-reward-essence">+{quest.rewards.holyEssence.toLocaleString()} Holy Essence</span>
-          <span className="quest-reward-title">
-            Title: <em>{quest.rewards.titleLatin}</em>
-          </span>
-          {quest.rewards.buff && (
-            <span className="quest-reward-buff">
-              Buff: {quest.rewards.buff.latinName} — {quest.rewards.buff.effect}
-            </span>
-          )}
+        {/* Rewards */}
+        <div className="quest-rewards">
+          <div className="quest-rewards-label">Reward</div>
+          <div className="quest-rewards-body">
+            <span className="quest-reward-essence">+{quest.rewards.holyEssence.toLocaleString()}</span>
+            <span className="quest-reward-title"><em>{quest.rewards.titleLatin}</em></span>
+            {quest.rewards.buff && (
+              <span className="quest-reward-buff">{quest.rewards.buff.latinName}</span>
+            )}
+          </div>
         </div>
       </div>
 

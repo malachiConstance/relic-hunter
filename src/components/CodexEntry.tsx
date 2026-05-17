@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import {
   RELICS,
   MILAN_RELICS,
@@ -7,6 +7,7 @@ import {
   VENERATION_COLORS,
   RARITY_COLORS,
   type Relic,
+  type RelicCategory,
 } from '../data/relics'
 import { useCollection } from '../hooks/useCollection'
 import { getActiveFeastsForRelic } from '../data/liturgicalCalendar'
@@ -73,37 +74,38 @@ function RelicDetail({ relic, onSelect }: { relic: Relic; onSelect: (r: Relic) =
   return (
     <div
       className={`codex-relic-card ${collected ? 'codex-relic-collected' : ''}`}
-      style={{ borderLeftColor: catColor }}
+      style={{ borderTopColor: catColor }}
       onClick={() => onSelect(relic)}
     >
       <div className="codex-relic-header">
         <span className="codex-relic-badge" style={{ background: catColor }}>
           {CATEGORY_LABELS[relic.category]}
         </span>
-        <span className="codex-relic-rarity" style={{ color: rarityColor }}>
-          {relic.rarity}
-        </span>
         {collected && <span className="codex-relic-collected-mark">✦</span>}
       </div>
       <div className="codex-relic-name">{relic.nameLocal}</div>
-      <div className="codex-relic-meta">
-        <span style={{ color: venColor }}>● {relic.veneration_type}</span>
-        <span> · {relic.points} pts</span>
-        {dist !== null && <span> · {formatDistance(dist)}</span>}
-      </div>
-      {activeFeasts.length > 0 && (
-        <div className="codex-feast-banner">
-          ✶ {activeFeasts[0].latinName} — ×{activeFeasts[0].pointsMultiplier} bonus active
+      <div className="codex-relic-footer">
+        <div className="codex-relic-meta">
+          <span className="codex-relic-rarity" style={{ color: rarityColor }}>{relic.rarity}</span>
+          <span className="codex-relic-meta-sep"> · </span>
+          <span style={{ color: venColor }}>● {relic.veneration_type}</span>
+          {dist !== null && <span> · {formatDistance(dist)}</span>}
         </div>
-      )}
-      {!collected && relic.city === 'milano' && (
-        <button
-          className="codex-quick-collect"
-          onClick={e => { e.stopPropagation(); collect(relic.id) }}
-        >
-          Mark Collected
-        </button>
-      )}
+        <div className="codex-relic-pts" style={{ color: rarityColor }}>{relic.points.toLocaleString()} pts</div>
+        {activeFeasts.length > 0 && (
+          <div className="codex-feast-banner">
+            ✶ {activeFeasts[0].latinName} ×{activeFeasts[0].pointsMultiplier}
+          </div>
+        )}
+        {!collected && relic.city === 'milano' && (
+          <button
+            className="codex-quick-collect"
+            onClick={e => { e.stopPropagation(); collect(relic.id) }}
+          >
+            Mark Collected
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -210,11 +212,7 @@ function FullRelicView({ relic, onBack }: { relic: Relic; onBack: () => void }) 
       <div className="codex-full-stats">
         <div className="codex-stat">
           <span className="codex-stat-label">Points</span>
-          <span className="codex-stat-value">{relic.points.toLocaleString()}</span>
-        </div>
-        <div className="codex-stat">
-          <span className="codex-stat-label">Location</span>
-          <span className="codex-stat-value">{relic.church}</span>
+          <span className="codex-stat-value codex-stat-highlight">{relic.points.toLocaleString()}</span>
         </div>
         {relic.year && (
           <div className="codex-stat">
@@ -222,6 +220,10 @@ function FullRelicView({ relic, onBack }: { relic: Relic; onBack: () => void }) 
             <span className="codex-stat-value">{relic.year}</span>
           </div>
         )}
+        <div className="codex-stat codex-stat-wide">
+          <span className="codex-stat-label">Location</span>
+          <span className="codex-stat-value">{relic.church}</span>
+        </div>
       </div>
 
       {/* Set progress */}
@@ -278,6 +280,11 @@ function FullRelicView({ relic, onBack }: { relic: Relic; onBack: () => void }) 
   )
 }
 
+const CATEGORY_ORDER: RelicCategory[] = [
+  'NAIL', 'WOOD', 'THORN', 'BLOOD', 'INSTRUMENT',
+  'BODY', 'BONE', 'CLOTH', 'MAGI',
+]
+
 type FilterAxis = 'all' | 'city' | 'dignity' | 'veneration' | 'rarity'
 
 export function CodexEntry({ onClose }: Props) {
@@ -295,23 +302,17 @@ export function CodexEntry({ onClose }: Props) {
     return true
   })
 
+  const grouped = CATEGORY_ORDER
+    .map(cat => ({ category: cat, relics: filteredRelics.filter(r => r.category === cat) }))
+    .filter(g => g.relics.length > 0)
+
   const milanCollected = MILAN_RELICS.filter(r => isCollected(r.id)).length
   const totalCollected = RELICS.filter(r => isCollected(r.id)).length
 
-  if (selectedRelic) {
-    return (
-      <div className="codex-overlay">
-        <div className="codex-panel">
-          <FullRelicView relic={selectedRelic} onBack={() => setSelectedRelic(null)} />
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="codex-overlay" onClick={onClose}>
+    <div className="codex-overlay" onClick={selectedRelic ? undefined : onClose}>
       <div className="codex-panel" onClick={e => e.stopPropagation()}>
-        <button className="relic-card-close" onClick={onClose}>✕</button>
+        <button className="relic-card-close" onClick={selectedRelic ? () => setSelectedRelic(null) : onClose}>✕</button>
 
         <div className="codex-header">
           <h2 className="codex-title">Reliquary Codex</h2>
@@ -355,16 +356,36 @@ export function CodexEntry({ onClose }: Props) {
           >Collected</button>
         </div>
 
-        {/* Relic list */}
+        {/* Relic grid — grouped by category */}
         <div className="codex-list">
-          {filteredRelics.map(relic =>
-            isCollected(relic.id) || relic.city === 'milano' ? (
-              <RelicDetail key={relic.id} relic={relic} onSelect={setSelectedRelic} />
-            ) : (
-              <RelicSilhouette key={relic.id} relic={relic} />
-            ),
-          )}
+          {grouped.map(({ category, relics: groupRelics }) => (
+            <Fragment key={category}>
+              <div
+                className="codex-category-header"
+                style={{ borderLeftColor: CATEGORY_COLORS[category] }}
+              >
+                <span className="codex-category-header-name">{CATEGORY_LABELS[category]}</span>
+                <span className="codex-category-count">{groupRelics.length}</span>
+              </div>
+              {groupRelics.map(relic =>
+                isCollected(relic.id) || relic.city === 'milano' ? (
+                  <RelicDetail key={relic.id} relic={relic} onSelect={setSelectedRelic} />
+                ) : (
+                  <RelicSilhouette key={relic.id} relic={relic} />
+                )
+              )}
+            </Fragment>
+          ))}
         </div>
+
+        {/* Full relic detail — centered card modal */}
+        {selectedRelic && (
+          <div className="codex-detail-backdrop" onClick={() => setSelectedRelic(null)}>
+            <div className="codex-detail-card" onClick={e => e.stopPropagation()}>
+              <FullRelicView relic={selectedRelic} onBack={() => setSelectedRelic(null)} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

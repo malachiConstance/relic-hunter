@@ -1,7 +1,30 @@
-import { SACRED_PATHS, type LatLng } from '../data/sacredPaths'
+// Procession routing.
+//
+// Resolution order for a given from/to:
+//   1. Manual override in SACRED_PATH_OVERRIDES (hand-authored ceremonial route)
+//   2. Cached OSM pedestrian variants in routes.generated.json (LRU-rotated)
+//   3. Straight line + console warn (means: run `npm run build:routes`)
+//
+// The from/to may be arbitrary lat/lng — we snap each end to the nearest POI
+// and prepend/append the actual coordinates so the avatar starts and ends
+// exactly where the caller expects.
+
+import { SACRED_PATH_OVERRIDES, type LatLng } from '../data/sacredPaths'
+import { POIS, nearestPOI, pairKey, type POI } from '../data/pois'
+import generatedRoutes from '../data/routes.generated.json'
+import { useGameStore } from '../store/useGameStore'
+
+export type { LatLng }
 
 export const WALK_SPEED_MPS = 70    // cinematic: full centro storico ~20 s
 export const ANIM_INTERVAL_MS = 100
+
+
+interface CachedVariant {
+  waypoints: LatLng[]
+  meters: number
+}
+const ROUTE_CACHE = generatedRoutes as unknown as Record<string, CachedVariant[]>
 
 // ── Distance ──────────────────────────────────────────────────────────────────
 
@@ -15,124 +38,45 @@ export function haversineM(a: LatLng, b: LatLng): number {
   return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s))
 }
 
-// ── Graph ─────────────────────────────────────────────────────────────────────
-
-function nodeKey(p: LatLng): string {
-  return `${p[0].toFixed(5)},${p[1].toFixed(5)}`
-}
-
-interface Edge { to: number; dist: number }
-
-interface Graph {
-  nodes: LatLng[]
-  adj: Map<number, Edge[]>
-  keyToIdx: Map<string, number>
-}
-
-function buildGraph(): Graph {
-  const nodes: LatLng[] = []
-  const adj = new Map<number, Edge[]>()
-  const keyToIdx = new Map<string, number>()
-
-  function getOrAdd(p: LatLng): number {
-    const k = nodeKey(p)
-    if (keyToIdx.has(k)) return keyToIdx.get(k)!
-    const idx = nodes.length
-    nodes.push([p[0], p[1]])
-    keyToIdx.set(k, idx)
-    adj.set(idx, [])
-    return idx
-  }
-
-  for (const path of SACRED_PATHS) {
-    for (let i = 0; i < path.length - 1; i++) {
-      const a = getOrAdd(path[i])
-      const b = getOrAdd(path[i + 1])
-      const d = haversineM(path[i], path[i + 1])
-      adj.get(a)!.push({ to: b, dist: d })
-      adj.get(b)!.push({ to: a, dist: d })
-    }
-  }
-
-  return { nodes, adj, keyToIdx }
-}
-
-const GRAPH = buildGraph()
-
-// ── Nearest node ──────────────────────────────────────────────────────────────
-
-function nearestNode(pos: LatLng): number {
-  let best = 0
-  let bestDist = Infinity
-  for (let i = 0; i < GRAPH.nodes.length; i++) {
-    const d = haversineM(pos, GRAPH.nodes[i])
-    if (d < bestDist) { bestDist = d; best = i }
-  }
-  return best
-}
-
-// ── Dijkstra (graph is ~150 nodes — simple array scan is fine) ────────────────
-
-function dijkstra(startIdx: number, endIdx: number): LatLng[] {
-  if (startIdx === endIdx) return [GRAPH.nodes[startIdx]]
-
-  const dist = new Float64Array(GRAPH.nodes.length).fill(Infinity)
-  const prev = new Int32Array(GRAPH.nodes.length).fill(-1)
-  const visited = new Uint8Array(GRAPH.nodes.length)
-  dist[startIdx] = 0
-
-  const pending = new Set<number>([startIdx])
-
-  while (pending.size > 0) {
-    // Pick unvisited node with smallest dist
-    let u = -1
-    let uDist = Infinity
-    for (const idx of pending) {
-      if (dist[idx] < uDist) { uDist = dist[idx]; u = idx }
-    }
-    if (u === -1 || u === endIdx) break
-    pending.delete(u)
-    visited[u] = 1
-
-    for (const { to, dist: edgeDist } of GRAPH.adj.get(u) ?? []) {
-      if (visited[to]) continue
-      const alt = dist[u] + edgeDist
-      if (alt < dist[to]) {
-        dist[to] = alt
-        prev[to] = u
-        pending.add(to)
-      }
-    }
-  }
-
-  // Reconstruct
-  const path: LatLng[] = []
-  let cur = endIdx
-  while (cur !== -1) {
-    path.unshift(GRAPH.nodes[cur])
-    cur = prev[cur]
-  }
-
-  // No path found — straight line fallback
-  return path.length > 1 ? path : [GRAPH.nodes[startIdx], GRAPH.nodes[endIdx]]
-}
-
 // ── Public API ────────────────────────────────────────────────────────────────
 
 export interface ProcessionRoute {
   waypoints: LatLng[]
   totalMeters: number
   steps: number
+  source: 'override' | 'osm' | 'fallback'
+  variantIndex: number
 }
 
-export function buildProcessionRoute(from: LatLng, to: LatLng): ProcessionRoute {
-  const startNode = nearestNode(from)
-  const endNode = nearestNode(to)
+export function buildProcessionRoute(from: LatLng, to: LatLng): ProcessionRoute | null {
+  const fromPOI = nearestPOI(from)
+  const toPOI = nearestPOI(to)
+  const pair = pairKey(fromPOI.id, toPOI.id)
 
-  const routeNodes = dijkstra(startNode, endNode)
+  let core: LatLng[]
+  let source: ProcessionRoute['source']
+  let variantIndex = 0
 
-  // Prepend actual start, append actual destination so avatar begins/ends exactly
-  const waypoints: LatLng[] = [from, ...routeNodes, to]
+  const override = SACRED_PATH_OVERRIDES[pair.key]
+  const cached = ROUTE_CACHE[pair.key]
+
+  if (override && override.length >= 2) {
+    core = pair.reversed ? [...override].reverse() : override
+    source = 'override'
+  } else if (cached && cached.length > 0) {
+    variantIndex = useGameStore.getState().pickAndAdvanceVariant(pair.key, cached.length)
+    const picked = cached[variantIndex].waypoints
+    core = pair.reversed ? [...picked].reverse() : picked
+    source = 'osm'
+  } else {
+    if (fromPOI.id !== toPOI.id) {
+      console.error(`[pathRouter] No OSM route for ${pair.key} — run 'npm run build:routes'`)
+    }
+    return null
+  }
+
+  // Stitch: caller's exact start/end onto the routed core.
+  const waypoints: LatLng[] = dedupeAdjacent([from, ...core, to])
 
   let totalMeters = 0
   for (let i = 0; i < waypoints.length - 1; i++) {
@@ -141,7 +85,16 @@ export function buildProcessionRoute(from: LatLng, to: LatLng): ProcessionRoute 
 
   const steps = Math.max(20, Math.round((totalMeters / WALK_SPEED_MPS) * (1000 / ANIM_INTERVAL_MS)))
 
-  return { waypoints, totalMeters, steps }
+  return { waypoints, totalMeters, steps, source, variantIndex }
+}
+
+function dedupeAdjacent(pts: LatLng[]): LatLng[] {
+  const out: LatLng[] = []
+  for (const p of pts) {
+    const prev = out[out.length - 1]
+    if (!prev || haversineM(prev, p) > 0.5) out.push(p)
+  }
+  return out.length >= 2 ? out : pts
 }
 
 // Precomputed cumulative segment distances for smooth interpolation
@@ -170,3 +123,7 @@ export function positionAtProgress(
   }
   return waypoints[waypoints.length - 1]
 }
+
+// Re-export so existing imports keep working.
+export { POIS, nearestPOI }
+export type { POI }

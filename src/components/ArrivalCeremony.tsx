@@ -6,6 +6,7 @@ import { RelicQuizPanel } from './RelicQuizPanel'
 interface Props {
   relicId: string
   onNavigateToChapel: () => void
+  onCancel: () => void
 }
 
 type Phase = 'dim' | 'burst' | 'reveal' | 'quiz' | 'pass' | 'fail'
@@ -16,7 +17,7 @@ function formatMs(ms: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export function ArrivalCeremony({ relicId, onNavigateToChapel }: Props) {
+export function ArrivalCeremony({ relicId, onNavigateToChapel, onCancel }: Props) {
   const relic = RELICS.find(r => r.id === relicId)
   const completeCeremony = useGameStore(s => s.completeCeremony)
   const failQuiz = useGameStore(s => s.failQuiz)
@@ -98,6 +99,9 @@ export function ArrivalCeremony({ relicId, onNavigateToChapel }: Props) {
       {/* Relic reveal card */}
       {(phase === 'reveal' || phase === 'quiz' || phase === 'pass') && (
         <div className={`ceremony-card ${phase === 'reveal' ? 'ceremony-card-enter' : ''}`}>
+          {(phase === 'reveal' || phase === 'quiz') && (
+            <button className="relic-card-close" onClick={onCancel} aria-label="Cancel">✕</button>
+          )}
           <div className="ceremony-header" style={{ borderColor: catColor }}>
             <div className="ceremony-newly-venerated" style={{ color: catColor }}>
               ✦ {phase === 'pass' ? 'Relic Acquired' : 'You Have Arrived'}

@@ -528,6 +528,43 @@ body {
   font-size: 0.9rem;
 }
 
+/* ── Fervor Spiritalis indicator ── */
+.header-fervor {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: #E8C96C;
+  cursor: default;
+}
+
+.fervor-icon {
+  font-size: 0.75rem;
+  color: #E8C96C;
+  opacity: 0.9;
+}
+
+.fervor-value {
+  min-width: 20px;
+  text-align: right;
+}
+
+.fervor-bar-mini {
+  width: 36px;
+  height: 5px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.fervor-bar-fill-mini {
+  height: 100%;
+  background: linear-gradient(90deg, #C9A84C, #E8C96C);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
 /* ── Active feast banner ── */
 .feast-banner {
   background: linear-gradient(90deg, rgba(201,168,76,0.15), rgba(201,168,76,0.08));
@@ -779,85 +816,158 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 12px 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  align-content: start;
+}
+
+@media (min-width: 480px) {
+  .codex-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Category section header — spans all columns */
+.codex-category-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 4px 4px 10px;
+  border-left: 3px solid var(--gold);
+  margin-top: 6px;
+}
+
+.codex-category-header:first-child {
+  margin-top: 0;
+}
+
+.codex-category-header-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sepia);
+}
+
+.codex-category-count {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  color: var(--parchment-shadow);
+  letter-spacing: 0.06em;
+}
+
+/* Relic card in list — portrait card style */
+.codex-relic-card {
+  background: rgba(255,255,255,0.45);
+  border: 1px solid var(--parchment-shadow);
+  border-top: 3px solid;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  min-height: 130px;
 }
 
-/* Relic card in list */
-.codex-relic-card {
-  background: rgba(255,255,255,0.4);
-  border: 1px solid var(--parchment-shadow);
-  border-left: 3px solid;
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background 0.2s;
+.codex-relic-card:hover {
+  background: rgba(201,168,76,0.09);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.codex-relic-card:hover { background: rgba(201,168,76,0.08); }
-.codex-relic-collected { background: rgba(201,168,76,0.06); }
+.codex-relic-collected {
+  background: rgba(201,168,76,0.07);
+}
 
 .codex-relic-header {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 5px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 6px 8px 3px;
 }
 
 .codex-relic-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 2px;
-}
-
-.codex-relic-rarity {
-  font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
+  line-height: 1.5;
 }
 
 .codex-relic-collected-mark {
   color: var(--gold);
-  font-size: 0.9rem;
-  margin-left: auto;
+  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
+/* Name: grows to fill card middle */
 .codex-relic-name {
   font-family: 'IM Fell English', serif;
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--ink);
-  margin-bottom: 3px;
+  padding: 5px 8px 6px;
+  flex: 1;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer: meta + actions pinned to bottom */
+.codex-relic-footer {
+  padding: 5px 8px 7px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  background: rgba(0,0,0,0.025);
 }
 
 .codex-relic-meta {
-  font-size: 0.75rem;
+  font-size: 0.67rem;
   color: var(--sepia);
+  line-height: 1.45;
+}
+
+.codex-relic-meta-sep { opacity: 0.5; }
+
+.codex-relic-rarity {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+}
+
+.codex-relic-pts {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  margin-top: 2px;
 }
 
 .codex-feast-banner {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--gold);
-  margin-top: 5px;
-  letter-spacing: 0.06em;
+  margin-top: 3px;
+  letter-spacing: 0.05em;
   animation: pulse-gold 2s ease-in-out infinite;
 }
 
 .codex-quick-collect {
-  margin-top: 6px;
+  margin-top: 5px;
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
   background: transparent;
   border: 1px solid var(--sepia);
   color: var(--sepia);
   cursor: pointer;
+  width: 100%;
 }
 
 .codex-quick-collect:hover {
@@ -866,15 +976,18 @@ body {
   border-color: var(--crimson);
 }
 
-/* Silhouette */
+/* Silhouette — same portrait dimensions as filled cards */
 .codex-silhouette {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 12px;
+  justify-content: center;
+  padding: 12px 10px;
   border: 1px dashed rgba(0,0,0,0.15);
-  opacity: 0.5;
+  border-top: 3px solid rgba(0,0,0,0.1);
+  opacity: 0.45;
   gap: 4px;
+  min-height: 130px;
 }
 
 .codex-silhouette-icon { opacity: 0.4; }
@@ -985,27 +1098,24 @@ body {
 }
 
 .codex-axis-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 115px 1fr;
+  gap: 6px;
   margin-bottom: 6px;
   font-size: 0.8rem;
+  align-items: baseline;
 }
 
 .codex-axis-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--sepia);
-  letter-spacing: 0.06em;
-  flex-shrink: 0;
-  min-width: 120px;
+  letter-spacing: 0.05em;
 }
 
 .codex-axis-value {
   color: var(--ink);
   font-style: italic;
-  text-align: right;
   font-size: 0.8rem;
 }
 
@@ -1018,28 +1128,43 @@ body {
   padding-top: 8px;
 }
 
-/* Stats */
+/* Stats — 2-column block grid */
 .codex-full-stats {
   padding: 12px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
 }
 
 .codex-stat {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.codex-stat-wide {
+  grid-column: 1 / -1;
 }
 
 .codex-stat-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--sepia);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.codex-stat-value { color: var(--ink); }
+.codex-stat-value {
+  color: var(--ink);
+  font-size: 0.82rem;
+}
+
+.codex-stat-highlight {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+}
 
 .codex-set-progress {
   padding: 8px 20px;
@@ -1126,6 +1251,32 @@ body {
 
 .codex-full-actions { padding: 16px 20px 24px; }
 
+/* Centered relic detail card — overlays the codex grid */
+.codex-detail-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 8, 2, 0.75);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.codex-detail-card {
+  background: var(--parchment);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeBlend in='SourceGraphic' mode='multiply'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  border: 1px solid var(--parchment-shadow);
+  border-top: 3px solid var(--gold);
+  border-radius: 3px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,168,76,0.15);
+  width: clamp(300px, 36vw, 500px);
+  max-height: 88%;
+  overflow-y: auto;
+  position: relative;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    QUEST BOARD
 ═══════════════════════════════════════════════════════════════ */
@@ -1190,9 +1341,16 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-content: start;
+}
+
+@media (min-width: 640px) {
+  .quest-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .quest-empty {
@@ -1292,7 +1450,7 @@ body {
 }
 
 /* Progress */
-.quest-progress { margin-bottom: 10px; }
+.quest-progress { margin-bottom: 0; }
 
 .quest-progress-label {
   font-family: 'Cinzel', serif;
@@ -1325,11 +1483,20 @@ body {
   margin-top: 2px;
 }
 
+/* Quest bottom 2-column: progress | rewards */
+.quest-bottom-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 8px 14px;
+  align-items: start;
+  margin-bottom: 8px;
+}
+
 /* Rewards */
-.quest-rewards { margin-bottom: 10px; }
+.quest-rewards { margin-bottom: 0; }
 .quest-rewards-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--sepia);
@@ -1340,21 +1507,23 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  text-align: right;
 }
 
 .quest-reward-essence {
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--gold);
+  font-weight: 700;
 }
 
 .quest-reward-title {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--ink-light);
 }
 
 .quest-reward-buff {
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   color: var(--sepia);
   font-style: italic;
 }
@@ -1831,7 +2000,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(10, 5, 2, 0.7);
-  z-index: 700;
+  z-index: 2100;
   display: flex;
   align-items: stretch;
   justify-content: flex-end;
@@ -2214,6 +2383,14 @@ body {
 }
 .ring-prope-pulse {
   animation: ring-prope-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes ring-legendary-glow-anim {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+.ring-legendary-glow {
+  animation: ring-legendary-glow-anim 2.4s ease-in-out infinite;
 }
 
 /* ── Walk-to button ──────────────────────────────────────────── */
@@ -2752,3 +2929,679 @@ body {
   font-style: normal;
 }
 
+/* Restart game zone in HelpPanel */
+.help-restart-zone {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+}
+
+.btn-restart-game {
+  background: none;
+  border: 1px solid var(--crimson);
+  color: var(--crimson);
+  font-size: 0.78rem;
+  padding: 6px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.btn-restart-game:hover {
+  opacity: 1;
+}
+
+.help-restart-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.restart-confirm-text {
+  font-size: 0.78rem;
+  color: var(--crimson);
+  flex: 1 1 100%;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.btn-restart-confirm-yes {
+  background: var(--crimson);
+  color: #fff;
+  border: none;
+  font-size: 0.78rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-restart-confirm-no {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--ink-light);
+  font-size: 0.78rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+/* ── Teaser Fervor cost ─────────────────────────────────────────── */
+.teaser-fervor-cost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 0 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+}
+
+.teaser-fervor-label {
+  color: var(--parchment-dark);
+  opacity: 0.75;
+}
+
+.teaser-fervor-val {
+  color: #E8C96C;
+  font-weight: 700;
+}
+
+.teaser-fervor-insufficient {
+  color: #C05050;
+}
+
+.teaser-fervor-warning {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #C05050;
+  font-style: italic;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+/* ── Rest Panel ─────────────────────────────────────────────────── */
+.rest-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 14, 4, 0.82);
+  z-index: 3000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 60px;
+}
+
+.rest-panel {
+  background: var(--parchment);
+  border: 2px solid var(--gold);
+  border-radius: 12px 12px 0 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 28px 24px 32px;
+  position: relative;
+  animation: rest-panel-up 0.28s ease-out;
+  color: var(--ink);
+}
+
+@keyframes rest-panel-up {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.rest-panel-header {
+  margin-bottom: 16px;
+}
+
+.rest-panel-type-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.rest-panel-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.rest-panel-latin {
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-light);
+  opacity: 0.7;
+}
+
+.rest-panel-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+
+.rest-panel-history {
+  background: var(--parchment-dark);
+  border-left: 3px solid var(--gold);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 18px;
+}
+
+.rest-panel-history-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.rest-panel-history p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+/* Fervor bar */
+.rest-panel-fervor-section {
+  margin-bottom: 18px;
+}
+
+.rest-panel-fervor-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: var(--sepia);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.rest-panel-fervor-track {
+  height: 8px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.rest-panel-fervor-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #C9A84C, #E8C96C);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.rest-panel-fervor-nums {
+  display: flex;
+  gap: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  color: var(--gold);
+  justify-content: flex-end;
+}
+
+/* Buttons */
+.rest-panel-btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.rest-panel-btn:hover:not(:disabled) {
+  background: var(--parchment-dark);
+}
+
+.rest-panel-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rest-panel-btn-primary {
+  background: var(--ink);
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.rest-panel-btn-primary:hover:not(:disabled) {
+  background: var(--ink-light);
+}
+
+.rest-panel-btn-reward {
+  font-size: 0.78rem;
+  color: #E8C96C;
+  opacity: 0.85;
+}
+
+.rest-panel-warning {
+  font-size: 0.78rem;
+  color: #8B1A1A;
+  text-align: center;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Post-rest state */
+.rest-panel-rested {
+  text-align: center;
+}
+
+.rest-panel-rested-banner {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--sepia);
+  margin-bottom: 6px;
+  padding: 10px;
+  background: var(--parchment-dark);
+  border-radius: 6px;
+}
+
+.rest-panel-fervor-restored {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: #5A8A3A;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+}
+
+/* Encounter */
+.rest-panel-encounter {
+  background: var(--parchment-dark);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.rest-panel-encounter-pilgrim {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.rest-panel-pilgrim-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.rest-panel-pilgrim-from {
+  font-size: 0.76rem;
+  color: var(--ink-light);
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.rest-panel-encounter-dialogue {
+  font-style: italic;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink);
+  border-left: 3px solid var(--gold);
+  padding-left: 12px;
+  margin: 0 0 12px;
+}
+
+/* Reveal banner */
+.rest-panel-reveal {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: var(--ink);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+.rest-panel-reveal-icon {
+  color: var(--gold);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.rest-panel-reveal-suspect {
+  background: rgba(139,26,26,0.08);
+  border-color: rgba(139,26,26,0.3);
+}
+
+.rest-panel-reveal-neutral {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.15);
+}
+
+/* Robbery / false lead */
+.rest-panel-robbery {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.rest-panel-robbery-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.rest-panel-robbery-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: #C9A84C;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+
+.rest-panel-robbery-text {
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.rest-panel-robbery-rescue {
+  background: rgba(201, 168, 76, 0.08);
+  border-left: 2px solid #C9A84C;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.rest-panel-robbery-rescue-icon {
+  color: #C9A84C;
+  margin-right: 6px;
+}
+
+.rest-panel-robbery-cost {
+  font-family: 'Cinzel', serif;
+  color: #8B1A1A;
+  font-size: 0.82rem;
+  margin-bottom: 16px;
+}
+
+/* ── Intro screen ─────────────────────────────────────────────────── */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 14, 4, 0.95);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.intro-card {
+  background: var(--parchment);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px 28px;
+  text-align: center;
+  animation: rest-panel-up 0.4s ease-out;
+}
+
+.intro-illumination {
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.intro-title-block {
+  margin-bottom: 24px;
+}
+
+.intro-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: var(--sepia);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: 0.7;
+}
+
+.intro-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+
+.intro-body {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.intro-body p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.intro-body p:last-child { margin-bottom: 0; }
+
+.intro-question {
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.85rem !important;
+  color: var(--sepia) !important;
+  text-align: center !important;
+  margin-top: 18px !important;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.intro-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.intro-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'IM Fell English', serif;
+  transition: background 0.2s;
+}
+
+.intro-btn-primary {
+  background: var(--ink);
+  border-color: var(--gold);
+  color: var(--parchment);
+}
+
+.intro-btn-primary:hover { background: var(--ink-light); }
+
+.intro-btn-secondary {
+  background: var(--parchment-dark);
+  border-color: var(--parchment-shadow);
+  color: var(--ink);
+}
+
+.intro-btn-secondary:hover { background: var(--parchment); }
+
+.intro-btn-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.intro-btn-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.intro-btn-hint {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.65;
+  font-style: italic;
+}
+
+.intro-fervor-warning {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: var(--sepia);
+  opacity: 0.65;
+  letter-spacing: 0.04em;
+}
+
+/* ── Map contextual "Rest here" button ───────────────────────────── */
+.map-rest-here-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  border: 1.5px solid var(--gold);
+  border-radius: 24px;
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  animation: rest-panel-up 0.25s ease-out;
+  white-space: nowrap;
+  max-width: calc(100% - 80px);
+}
+
+.map-rest-here-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.map-rest-here-text {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.map-rest-here-text em {
+  font-style: italic;
+  font-size: 0.68rem;
+  opacity: 0.7;
+  margin-top: 1px;
+  font-family: 'IM Fell English', serif;
+}
+
+/* ── Teaser action row (walk + procession side by side) ──────────── */
+.teaser-action-row {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.teaser-btn-walk {
+  flex: 1;
+  padding: 9px 10px;
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 6px;
+  background: var(--parchment-dark);
+  color: var(--ink);
+  font-family: 'Cinzel', serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.teaser-btn-walk:hover:not(:disabled) { background: var(--parchment); }
+
+.teaser-btn-walk:disabled,
+.teaser-btn-procession:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.teaser-btn-procession {
+  flex: 1.3;
+  padding: 9px 10px;
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.teaser-btn-procession:hover:not(:disabled) { background: var(--ink-light); }
+
+.teaser-btn-cost {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.7;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+}
+
+/* ── Rest panel distance indicator ──────────────────────────────── */
+.rest-panel-distance {
+  font-size: 0.78rem;
+  color: var(--sepia);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}

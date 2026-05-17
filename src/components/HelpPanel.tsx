@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { GAME_DOC } from '../data/gameDocParser'
 import type { TutorialStep } from '../data/gameDocParser'
+import { useGameStore } from '../store/useGameStore'
 
 interface Props {
   onClose: () => void
@@ -46,6 +47,8 @@ export function HelpPanel({ onClose }: Props) {
   const [tab, setTab] = useState<Tab>('tutorial')
   const [openArticle, setOpenArticle] = useState<string | null>(null)
   const [openTerm, setOpenTerm] = useState<string | null>(null)
+  const [confirmReset, setConfirmReset] = useState(false)
+  const resetGame = useGameStore(s => s.resetGame)
 
   const conceptsSection = GAME_DOC.sections.find(s => s.id === 'concepts')
 
@@ -137,6 +140,27 @@ export function HelpPanel({ onClose }: Props) {
             </div>
           )}
 
+        </div>
+
+        <div className="help-restart-zone">
+          {!confirmReset ? (
+            <button className="btn-restart-game" onClick={() => setConfirmReset(true)}>
+              Restart Game
+            </button>
+          ) : (
+            <div className="help-restart-confirm">
+              <span className="restart-confirm-text">All progress will be lost. Are you sure?</span>
+              <button
+                className="btn-restart-confirm-yes"
+                onClick={() => { resetGame(); onClose() }}
+              >
+                Yes, restart
+              </button>
+              <button className="btn-restart-confirm-no" onClick={() => setConfirmReset(false)}>
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
