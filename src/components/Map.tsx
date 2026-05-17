@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { MILAN_RELICS, CATEGORY_COLORS, type Relic } from '../data/relics'
-import { SACRED_PATHS } from '../data/sacredPaths'
+import { SACRED_PATH_OVERRIDES } from '../data/sacredPaths'
 import { useCollection } from '../hooks/useCollection'
 import { useFootsteps } from '../hooks/useFootsteps'
 import { useGameStore } from '../store/useGameStore'
@@ -12,13 +12,16 @@ import {
   positionAtProgress,
   ANIM_INTERVAL_MS,
 } from '../engine/pathRouter'
-import { PathEditor } from './PathEditor'
+import { FogLayer } from './FogLayer'
+import { cellsRevealedAt, FOG_REVEAL_RING_WALK, FOG_REVEAL_RING_ARRIVAL } from '../engine/fogOfWar'
 import { TUTORIAL_QUESTS } from '../data/tutorialQuests'
 import { rollVision } from '../engine/veiledVisions'
 import { getActiveFeastsForRelic } from '../data/liturgicalCalendar'
+import { REST_PLACES, type RestPlace } from '../data/restPlaces'
 
 interface Props {
   onRelicClick: (relic: Relic) => void
+  onPlaceClick: (placeId: string) => void
 }
 
 function iconSizeFromZoom(zoom: number): number {
@@ -45,32 +48,105 @@ function makeRelicIcon(relic: Relic, size: number, opts: IconOpts): L.DivIcon {
   const { collected, tutorialTarget, dimmed, prope, feastPulse } = opts
   const color = CATEGORY_COLORS[relic.category]
   const r = size / 2
-  const stroke = collected ? Math.round(size * 0.28) : Math.round(size * 0.22)
   const opacity = dimmed ? 0.35 : 1
-  const extraSize = prope ? size + 16 : size
+
+  // Outer pulse ring for nearby uncollected relics
+  const extraSize = prope && !collected ? size + 20 : size
   const er = extraSize / 2
-  const classes = [
+  const offset = prope && !collected ? 10 : 0
+
+  const animClass = [
     tutorialTarget ? 'ring-tutorial-pulse' : '',
     feastPulse && !collected ? 'ring-feast-pulse' : '',
+    relic.rarity === 'Legendary' && !collected ? 'ring-legendary-glow' : '',
   ].filter(Boolean).join(' ')
 
   const propeRing = prope && !collected
-    ? `<circle cx="${er}" cy="${er}" r="${er - 3}" fill="none" stroke="${color}" stroke-width="1.5" stroke-opacity="0.5" class="ring-prope-pulse"/>`
+    ? `<circle cx="${er}" cy="${er}" r="${er - 2}" fill="none" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.55" class="ring-prope-pulse"/>`
     : ''
-  const offset = prope ? 8 : 0
+
+  // Glow filter id (unique per rarity to avoid cross-contamination)
+  const filterId = `glow-${relic.rarity.toLowerCase()}-${relic.id.slice(0, 6)}`
+
+  let rings: string
+  let filterDef: string
+
+  if (collected) {
+    // Solid gold disc with relic-color center dot — sealed / collected appearance
+    filterDef = `<filter id="${filterId}" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feFlood flood-color="#F5E6C8" flood-opacity="0.7" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>`
+    rings = `
+      <circle cx="${r}" cy="${r}" r="${r - 1.5}" fill="#C9A84C" stroke="#F5E6C8" stroke-width="1.5" filter="url(#${filterId})"/>
+      <circle cx="${r}" cy="${r}" r="${r * 0.42}" fill="${color}" fill-opacity="0.9" stroke="none"/>
+      <circle cx="${r}" cy="${r}" r="${r * 0.42}" fill="none" stroke="#F5E6C8" stroke-width="0.8" stroke-opacity="0.6"/>
+    `
+  } else {
+    const glowStdDev = relic.rarity === 'Legendary' ? 5 : relic.rarity === 'Rare' ? 3.5 : relic.rarity === 'Uncommon' ? 2 : 1
+    const glowOpacity = relic.rarity === 'Legendary' ? 0.9 : relic.rarity === 'Rare' ? 0.75 : 0.55
+    filterDef = `<filter id="${filterId}" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="${glowStdDev}" result="blur"/>
+      <feFlood flood-color="#C9A84C" flood-opacity="${glowOpacity}" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>`
+    const innerStroke = Math.round(size * 0.22)
+    // Gold outer ring + colored inner ring (thick) + optional extra decoration for legendary
+    rings = `
+      <circle cx="${r}" cy="${r}" r="${r - 1.5}" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.65" filter="url(#${filterId})"/>
+      <circle cx="${r}" cy="${r}" r="${r - innerStroke / 2 - 3}" fill="none" stroke="${color}" stroke-width="${innerStroke}"/>
+    `
+    if (relic.rarity === 'Legendary') {
+      rings += `<circle cx="${r}" cy="${r}" r="${r - 1}" fill="none" stroke="#C9A84C" stroke-width="0.7" stroke-dasharray="3 5" stroke-opacity="0.8"/>`
+    } else if (relic.rarity === 'Rare') {
+      rings += `<circle cx="${r}" cy="${r}" r="${r - 1}" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.5"/>`
+    }
+  }
 
   return L.divIcon({
     className: '',
     html: `<svg xmlns="http://www.w3.org/2000/svg" width="${extraSize}" height="${extraSize}" viewBox="0 0 ${extraSize} ${extraSize}" style="opacity:${opacity}">
+      <defs>${filterDef}</defs>
       ${propeRing}
-      <g transform="translate(${offset},${offset})" class="${classes}">
-        ${collected ? `<circle cx="${r}" cy="${r}" r="${r - stroke / 2}" fill="${color}" fill-opacity="0.22" stroke="none"/>` : ''}
-        <circle cx="${r}" cy="${r}" r="${r - stroke / 2}" fill="none" stroke="${color}" stroke-width="${stroke}"/>
+      <g transform="translate(${offset},${offset})" class="${animClass}">
+        ${rings}
       </g>
     </svg>`,
     iconSize: [extraSize, extraSize],
     iconAnchor: [er, er],
     popupAnchor: [0, -er - 4],
+  })
+}
+
+function makeRestPlaceIcon(place: RestPlace, known: boolean): L.DivIcon {
+  const isTavern = place.type === 'tavern'
+  const isKloster = place.type === 'kloster'
+
+  const bg = isTavern ? '#4A2A0A' : '#1A0E04'
+  const border = isTavern ? '#C9A84C' : isKloster ? '#E8C96C' : '#9AB8C8'
+  const symbol = isTavern ? '⚱' : isKloster ? '✝' : '⛪'
+  const glow = isTavern ? 'rgba(201,168,76,0.4)' : isKloster ? 'rgba(232,201,108,0.5)' : 'rgba(154,184,200,0.4)'
+  const size = isTavern ? 26 : isKloster ? 28 : 24
+
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      width:${size}px;height:${size}px;
+      background:${bg};
+      border:2px solid ${border};
+      border-radius:${isTavern ? '4px' : isKloster ? '2px' : '50%'};
+      display:flex;align-items:center;justify-content:center;
+      font-size:${size * 0.5}px;
+      line-height:1;
+      box-shadow:0 0 8px ${glow}, inset 0 0 4px rgba(0,0,0,0.5);
+      opacity:${known ? 1 : 0.6};
+    ">${symbol}</div>`,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -size / 2 - 4],
   })
 }
 
@@ -124,14 +200,15 @@ function computeSpreadPositions(): globalThis.Map<string, [number, number]> {
 
 const SPREAD_POSITIONS = computeSpreadPositions()
 
-export function Map({ onRelicClick }: Props) {
+export function Map({ onRelicClick, onPlaceClick }: Props) {
   const mapRef = useRef<L.Map | null>(null)
   const [leafletMap, setLeafletMap] = useState<L.Map | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const relicMarkersRef = useRef<globalThis.Map<string, L.Marker>>(new globalThis.Map())
+  const placeMarkersRef = useRef<globalThis.Map<string, L.Marker>>(new globalThis.Map())
   const pilgrimMarkerRef = useRef<L.Marker | null>(null)
-  const routeRef = useRef<L.Polyline | null>(null)
   const processionPathRef = useRef<L.Polyline | null>(null)
+  const walkedHistoryLayerRef = useRef<L.LayerGroup | null>(null)
   const animIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const { collected, isCollected } = useCollection()
@@ -144,6 +221,14 @@ export function Map({ onRelicClick }: Props) {
   const completeProcession = useGameStore(s => s.completeProcession)
   const addDevotio = useGameStore(s => s.addDevotio)
   const showVision = useGameStore(s => s.showVision)
+  const walkedPaths = useGameStore(s => s.walkedPaths)
+  const recordWalkedPath = useGameStore(s => s.recordWalkedPath)
+  const revealCells = useGameStore(s => s.revealCells)
+  const knownPlaceIds = useGameStore(s => s.knownPlaceIds)
+  const knownRelicIds = useGameStore(s => s.knownRelicIds)
+  const walkingToCoord = useGameStore(s => s.walkingToCoord)
+  const walkingDestPlaceId = useGameStore(s => s.walkingDestPlaceId)
+  const completeWalk = useGameStore(s => s.completeWalk)
 
   // For step 1 only: dim everything except the specific target relic
   const tutorialTargetIds: string[] = (tutorialStep === 1)
@@ -161,14 +246,16 @@ export function Map({ onRelicClick }: Props) {
       zoomControl: false,
     })
 
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
+    const stadiaKey = import.meta.env.VITE_STADIA_API_KEY
+    const keyParam = stadiaKey ? `?api_key=${stadiaKey}` : ''
+    L.tileLayer(`https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg${keyParam}`, {
       attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://stamen.com">Stamen Design</a>',
       minZoom: 1,
       maxNativeZoom: 16,
       maxZoom: 20,
     }).addTo(map)
 
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}.png', {
+    L.tileLayer(`https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}.png${keyParam}`, {
       attribution: '',
       opacity: 0.5,
       minZoom: 1,
@@ -176,11 +263,13 @@ export function Map({ onRelicClick }: Props) {
       maxZoom: 20,
     }).addTo(map)
 
-    // Sacred path network — warm orange/white to follow the map's street tones
-    for (const path of SACRED_PATHS) {
+    for (const path of Object.values(SACRED_PATH_OVERRIDES)) {
       L.polyline(path, { color: '#FFFFFF', weight: 3, opacity: 0.18 }).addTo(map)
       L.polyline(path, { color: '#E8820A', weight: 1.5, opacity: 0.42 }).addTo(map)
     }
+
+    // Walked-path history layer — populated/refreshed by a separate effect.
+    walkedHistoryLayerRef.current = L.layerGroup().addTo(map)
 
     // Pilgrim avatar — starts at Duomo
     const pilgrimStart = useGameStore.getState()
@@ -199,6 +288,7 @@ export function Map({ onRelicClick }: Props) {
       relicMarkersRef.current.forEach((marker, id) => {
         const relic = MILAN_RELICS.find(r => r.id === id)
         if (!relic) return
+        if (!state.knownRelicIds.includes(id) && !state.collected.includes(id)) return
         const col = state.collected.includes(id)
         const isTgt = targets.includes(id)
         const dim = step === 1 && !col && !isTgt
@@ -213,13 +303,21 @@ export function Map({ onRelicClick }: Props) {
     setLeafletMap(map)
   }, [])
 
-  // ── Relic markers ───────────────────────────────────────────────────────────
+  // ── Relic markers (only for known relics) ───────────────────────────────────
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
     const size = iconSizeFromZoom(map.getZoom())
 
-    MILAN_RELICS.forEach(relic => {
+    // Remove markers for relics no longer known
+    relicMarkersRef.current.forEach((marker, id) => {
+      if (!knownRelicIds.includes(id) && !collected.includes(id)) {
+        marker.remove()
+        relicMarkersRef.current.delete(id)
+      }
+    })
+
+    MILAN_RELICS.filter(r => knownRelicIds.includes(r.id) || collected.includes(r.id)).forEach(relic => {
       const pos = SPREAD_POSITIONS.get(relic.id) ?? [relic.lat, relic.lng] as [number, number]
       const existing = relicMarkersRef.current.get(relic.id)
       const col = collected.includes(relic.id)
@@ -238,13 +336,91 @@ export function Map({ onRelicClick }: Props) {
         relicMarkersRef.current.set(relic.id, marker)
       }
     })
-  }, [collected, isCollected, onRelicClick, tutorialStep, tutorialTargetIds, pilgrimLat, pilgrimLng])
+  }, [collected, isCollected, onRelicClick, tutorialStep, tutorialTargetIds, pilgrimLat, pilgrimLng, knownRelicIds])
+
+  // ── Rest place markers (only for known places) ───────────────────────────
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+
+    // Remove markers for places no longer known
+    placeMarkersRef.current.forEach((marker, id) => {
+      if (!knownPlaceIds.includes(id)) {
+        marker.remove()
+        placeMarkersRef.current.delete(id)
+      }
+    })
+
+    REST_PLACES.filter(p => knownPlaceIds.includes(p.id)).forEach(place => {
+      const existing = placeMarkersRef.current.get(place.id)
+      const icon = makeRestPlaceIcon(place, true)
+      if (existing) {
+        existing.setIcon(icon)
+      } else {
+        const marker = L.marker(place.coord, { icon, zIndexOffset: 500 })
+          .addTo(map)
+          .on('click', () => onPlaceClick(place.id))
+        placeMarkersRef.current.set(place.id, marker)
+      }
+    })
+  }, [knownPlaceIds, onPlaceClick])
 
   // ── Pilgrim base position (when not animating) ──────────────────────────────
   useEffect(() => {
-    if (processingRelicId) return  // animation owns position during procession
+    if (processingRelicId || walkingToCoord) return
     pilgrimMarkerRef.current?.setLatLng([pilgrimLat, pilgrimLng])
-  }, [pilgrimLat, pilgrimLng, processingRelicId])
+  }, [pilgrimLat, pilgrimLng, processingRelicId, walkingToCoord])
+
+  // ── Walking animation (path-following, same engine as procession but no ceremony) ──
+  useEffect(() => {
+    const marker = pilgrimMarkerRef.current
+    const map = mapRef.current
+    if (!walkingToCoord || !marker || !map) return
+
+    const { lat, lng } = marker.getLatLng()
+    const from: [number, number] = [lat, lng]
+    const route = buildProcessionRoute(from, walkingToCoord)
+    if (!route) {
+      completeWalk()
+      return
+    }
+    const segDists = segmentDistances(route.waypoints)
+    const { waypoints, totalMeters, steps } = route
+
+    revealCells(cellsRevealedAt(from[0], from[1]))
+
+    // Walking path: green-tinted rather than gold
+    const walkPathLine = L.polyline(waypoints, {
+      color: '#7AAA5A',
+      weight: 2,
+      dashArray: '4 7',
+      opacity: 0.7,
+    }).addTo(map)
+
+    const revealEvery = Math.max(1, Math.round(steps / (totalMeters / 8)))
+    const stepSoundEvery = Math.max(1, Math.round(steps / (totalMeters / 0.8)))
+    let step = 0
+
+    const walkInterval = setInterval(() => {
+      step++
+      const pos = positionAtProgress(waypoints, segDists, totalMeters, step / steps)
+      marker.setLatLng(pos)
+      if (step % stepSoundEvery === 0) playStep()
+      if (step % revealEvery === 0) revealCells(cellsRevealedAt(pos[0], pos[1], FOG_REVEAL_RING_WALK))
+      if (step >= steps) {
+        clearInterval(walkInterval)
+        walkPathLine.remove()
+        revealCells(cellsRevealedAt(walkingToCoord[0], walkingToCoord[1], FOG_REVEAL_RING_ARRIVAL))
+        recordWalkedPath(waypoints as [number, number][])
+        completeWalk()
+      }
+    }, ANIM_INTERVAL_MS)
+
+    return () => {
+      clearInterval(walkInterval)
+      walkPathLine.remove()
+    }
+  }, [walkingToCoord])  // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Procession animation (path-following, constant walking speed) ───────────
   useEffect(() => {
@@ -261,8 +437,17 @@ export function Map({ onRelicClick }: Props) {
 
     // Route through sacred path graph — no straight-line house-cutting
     const route = buildProcessionRoute(from, targetPos)
+    if (!route) {
+      // No OSM route cached — skip animation rather than walk through houses
+      console.error('[Map] No OSM route available, skipping procession animation')
+      completeProcession()
+      return
+    }
     const segDists = segmentDistances(route.waypoints)
     const { waypoints, totalMeters, steps } = route
+
+    // Reveal spawn point immediately so the pilgrim isn't standing in darkness
+    revealCells(cellsRevealedAt(from[0], from[1]))
 
     // Draw dotted gold path along the actual route
     processionPathRef.current = L.polyline(waypoints, {
@@ -279,6 +464,8 @@ export function Map({ onRelicClick }: Props) {
     const devotioEvery = Math.max(1, Math.round(steps / (totalMeters / 30)))
     // Vision roll: every 40–80 steps (randomised)
     const visionEvery = 40 + Math.floor(Math.random() * 40)
+    // Fog reveal: once per ~5 m walked
+    const revealEvery = Math.max(1, Math.round(steps / (totalMeters / 5)))
 
     animIntervalRef.current = setInterval(() => {
       step++
@@ -291,12 +478,17 @@ export function Map({ onRelicClick }: Props) {
         const vision = rollVision(step)
         if (vision) showVision(vision)
       }
+      if (step % revealEvery === 0) revealCells(cellsRevealedAt(pos[0], pos[1]))
 
       if (step >= steps) {
         clearInterval(animIntervalRef.current!)
         animIntervalRef.current = null
         processionPathRef.current?.remove()
         processionPathRef.current = null
+        // Reveal destination with a large burst so it's never on the fog edge
+        revealCells(cellsRevealedAt(targetPos[0], targetPos[1], FOG_REVEAL_RING_ARRIVAL))
+        // Persist the polyline so it shows up as faint history afterwards.
+        recordWalkedPath(waypoints as [number, number][])
         completeProcession()
       }
     }, ANIM_INTERVAL_MS)
@@ -309,39 +501,28 @@ export function Map({ onRelicClick }: Props) {
       processionPathRef.current?.remove()
       processionPathRef.current = null
     }
-  }, [processingRelicId])   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [processingRelicId, revealCells])   // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Pilgrim route polyline (collected path) ─────────────────────────────────
+  // ── Walked-path history (persistent dotted gold trail) ──────────────────────
   useEffect(() => {
-    const map = mapRef.current
-    if (!map) return
+    const layer = walkedHistoryLayerRef.current
+    if (!layer || !leafletMap) return
+    layer.clearLayers()
+    for (const path of walkedPaths) {
+      L.polyline(path as L.LatLngTuple[], {
+        color: '#C9A84C',
+        weight: 2,
+        dashArray: '5 8',
+        opacity: 0.35,
+      }).addTo(layer)
+    }
+  }, [walkedPaths, leafletMap])
 
-    routeRef.current?.remove()
-    routeRef.current = null
-
-    if (collected.length < 2) return
-
-    const points = collected.map(id => {
-      const spread = SPREAD_POSITIONS.get(id)
-      if (spread) return spread
-      const relic = MILAN_RELICS.find(r => r.id === id)
-      return relic ? [relic.lat, relic.lng] as [number, number] : null
-    }).filter(Boolean) as [number, number][]
-
-    if (points.length < 2) return
-
-    routeRef.current = L.polyline(points, {
-      color: '#8B1A1A',
-      weight: 2.5,
-      opacity: 0.7,
-      dashArray: '6, 8',
-    }).addTo(map)
-  }, [collected])
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
-      <PathEditor map={leafletMap} />
+      <FogLayer map={leafletMap} />
     </div>
   )
 }
