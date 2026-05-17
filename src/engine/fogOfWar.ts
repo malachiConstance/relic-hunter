@@ -1,10 +1,7 @@
 import { latLngToCell, gridDisk, cellToBoundary } from 'h3-js'
 
 export const FOG_RES = 11
-export const FOG_REVEAL_RING = 1          // procession reveal radius
-export const FOG_REVEAL_RING_SPAWN = 10   // initial reveal at game start (~240m radius)
-export const FOG_REVEAL_RING_WALK = 10    // reveal while walking — matches spawn radius
-export const FOG_REVEAL_RING_ARRIVAL = 2  // small cleanup on arrival, no big burst
+export const FOG_REVEAL_RING = 10   // uniform reveal radius — spawn, walking, arrival
 export const FOG_OPACITY = 1.0
 export const FOG_FEATHER_PX = 18
 export const FOG_REPAINT_DEBOUNCE_MS = 120

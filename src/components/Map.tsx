@@ -13,7 +13,7 @@ import {
   ANIM_INTERVAL_MS,
 } from '../engine/pathRouter'
 import { FogLayer } from './FogLayer'
-import { cellsRevealedAt, FOG_REVEAL_RING_WALK, FOG_REVEAL_RING_ARRIVAL } from '../engine/fogOfWar'
+import { cellsRevealedAt } from '../engine/fogOfWar'
 import { TUTORIAL_QUESTS } from '../data/tutorialQuests'
 import { rollVision } from '../engine/veiledVisions'
 import { getActiveFeastsForRelic } from '../data/liturgicalCalendar'
@@ -406,11 +406,11 @@ export function Map({ onRelicClick, onPlaceClick }: Props) {
       const pos = positionAtProgress(waypoints, segDists, totalMeters, step / steps)
       marker.setLatLng(pos)
       if (step % stepSoundEvery === 0) playStep()
-      if (step % revealEvery === 0) revealCells(cellsRevealedAt(pos[0], pos[1], FOG_REVEAL_RING_WALK))
+      if (step % revealEvery === 0) revealCells(cellsRevealedAt(pos[0], pos[1]))
       if (step >= steps) {
         clearInterval(walkInterval)
         walkPathLine.remove()
-        revealCells(cellsRevealedAt(walkingToCoord[0], walkingToCoord[1], FOG_REVEAL_RING_ARRIVAL))
+        revealCells(cellsRevealedAt(walkingToCoord[0], walkingToCoord[1]))
         recordWalkedPath(waypoints as [number, number][])
         completeWalk()
       }
@@ -485,8 +485,7 @@ export function Map({ onRelicClick, onPlaceClick }: Props) {
         animIntervalRef.current = null
         processionPathRef.current?.remove()
         processionPathRef.current = null
-        // Reveal destination with a large burst so it's never on the fog edge
-        revealCells(cellsRevealedAt(targetPos[0], targetPos[1], FOG_REVEAL_RING_ARRIVAL))
+        revealCells(cellsRevealedAt(targetPos[0], targetPos[1]))
         // Persist the polyline so it shows up as faint history afterwards.
         recordWalkedPath(waypoints as [number, number][])
         completeProcession()

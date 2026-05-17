@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useGameStore, MAX_FERVOR, MIN_FERVOR_AFTER_ROBBERY } from '../store/useGameStore'
 import { getRestPlace } from '../data/restPlaces'
 import { RELICS } from '../data/relics'
+import { ProgressButton } from './ProgressButton'
 
 interface Props {
   placeId: string
@@ -225,12 +226,14 @@ export function RestPanel({ placeId, onClose }: Props) {
               </div>
             )}
 
-            <button
+            <ProgressButton
               className="rest-panel-btn rest-panel-btn-primary"
-              onClick={() => { dismissEncounter(); onClose() }}
-            >
-              Continue your pilgrimage
-            </button>
+              label="Continue your pilgrimage"
+              busyLabel="The night passes…"
+              durationMs={5000}
+              mode="gate"
+              onActivate={() => { dismissEncounter(); onClose() }}
+            />
           </div>
         )}
       </div>

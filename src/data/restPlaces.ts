@@ -457,7 +457,7 @@ export const REST_PLACES: RestPlace[] = [
     type: 'church',  // acts as starting sanctuary
     coord: [45.47028, 9.17944],
     description:
-      'The great fortress of Milan, built by the Visconti and expanded by the Sforza dynasty. Its chapel offers refuge to weary pilgrims. You began your journey here.',
+      'The great fortress of Milan, built by the Visconti and expanded by the Sforza dynasty. Its chapel offers refuge to weary pilgrims.',
     history:
       'Originally the "Porta Giovia" fortress (1358), rebuilt by Francesco Sforza after 1450. The ducal chapel within still preserves remnants of frescoes by the Lombard school. Leonardo da Vinci worked here as a court artist from 1482 to 1499.',
     fervorRestore: 25,

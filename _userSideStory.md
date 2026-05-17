@@ -43,3 +43,18 @@ Fix fog radius (50% bigger), fix '+0 fervor' giveaway on false leads, places sho
 
 ----- datetime: 2026-05-17 18:02
 radius around castello is just right. use this radius everywhere. walking is too small, arrivalBurst too big: [Image #5]
+
+----- datetime: 2026-05-17 18:40
+the map is revealed gradually while walking. sonnet cannot make it reveal steadily, the revealed radius is different on walking then when starting and arriving, see screenshot i tried 10x with no success, analyze then fix problem
+
+----- datetime: 2026-05-17 18:55
+great. i got robbed and dont even have fervor to walk to closest pray. add action button 'pray for fervor' which gives you 1 point fervor per click. when clicked, there is a progress bar running inside the button for 5 seconds. only then it can be repressed. same mechanism for staying overnight somewhere - minimum wait symbolized by progress bar, but in this case, it must be in modal where the fellow pilgrim text is. also remove text "your journey began here" from castello sforzesco text. dumb thing to state
+
+----- datetime: 2026-05-17 19:30
+in c64 game defender of the crown, there are simple but beautiful graphics of castles. can we add graphic of castello sforzesco in this style to initial screen describing start situation?
+
+----- datetime: 2026-05-17 19:40
+this would enhance game atmosphere greatly
+
+----- datetime: 2026-05-17 19:42
+commit to vercel

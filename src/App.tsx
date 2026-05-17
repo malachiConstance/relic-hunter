@@ -13,9 +13,10 @@ import { QuestBoard } from './components/QuestBoard'
 import { ReliquaryChapel } from './components/ReliquaryChapel'
 import { RestPanel } from './components/RestPanel'
 import { IntroScreen } from './components/IntroScreen'
+import { ProgressButton } from './components/ProgressButton'
 import { useCollection } from './hooks/useCollection'
 import { useGameStore, MAX_FERVOR } from './store/useGameStore'
-import { cellsRevealedAt, FOG_REVEAL_RING_SPAWN } from './engine/fogOfWar'
+import { cellsRevealedAt } from './engine/fogOfWar'
 import { MILAN_RELICS, RELICS, type Relic } from './data/relics'
 import { REST_PLACES } from './data/restPlaces'
 import { getActiveFeastToday } from './data/liturgicalCalendar'
@@ -44,6 +45,7 @@ export default function App() {
   const walkingDestPlaceId = useGameStore(s => s.walkingDestPlaceId)
   const knownPlaceIds = useGameStore(s => s.knownPlaceIds)
   const beginWalk = useGameStore(s => s.beginWalk)
+  const gainFervor = useGameStore(s => s.gainFervor)
   const walkingFervorCost = useGameStore(s => s.walkingFervorCost)
   const activeQuests = useGameStore(s => s.activeQuests)
   const activeFeast = getActiveFeastToday()
@@ -84,7 +86,7 @@ export default function App() {
     // Always seed the spawn reveal if exploredCells is empty (new game or reset)
     if (state.exploredCells.length === 0) {
       useGameStore.getState().revealCells(
-        cellsRevealedAt(state.pilgrimLat, state.pilgrimLng, FOG_REVEAL_RING_SPAWN)
+        cellsRevealedAt(state.pilgrimLat, state.pilgrimLng)
       )
     }
     if (state.tutorialStep === 0) {
@@ -212,6 +214,20 @@ export default function App() {
                   <em>{nearbyPlace.name}</em>
                 </span>
               </button>
+            )}
+
+            {/* Pray for Fervor — recover spiritual energy anywhere, e.g. after a robbery */}
+            {!walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && (
+              <ProgressButton
+                className="map-pray-btn"
+                label="Pray for Fervor"
+                busyLabel="Praying…"
+                hint="+1 Fervor"
+                durationMs={5000}
+                mode="cooldown"
+                disabled={fervor >= MAX_FERVOR}
+                onActivate={() => gainFervor(1)}
+              />
             )}
 
             {/* Quest progress indicator on map */}
