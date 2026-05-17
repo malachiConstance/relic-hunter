@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { CastleArt } from './CastleArt'
 
 interface Props {
   onRest: () => void      // opens castello rest panel
@@ -24,9 +23,7 @@ export function IntroScreen({ onRest, onExplore }: Props) {
   return (
     <div className="intro-overlay">
       <div className="intro-card">
-        <div className="intro-castle-art">
-          <CastleArt />
-        </div>
+        <div className="intro-illumination">✦</div>
         <div className="intro-title-block">
           <div className="intro-subtitle">Anno Domini MCCCCLXX · Milano</div>
           <h1 className="intro-title">Castello Sforzesco</h1>

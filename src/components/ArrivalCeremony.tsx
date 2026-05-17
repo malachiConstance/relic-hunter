@@ -123,27 +123,30 @@ export function ArrivalCeremony({ relicId, onNavigateToChapel, onCancel }: Props
           </div>
 
           {isFullCeremony && (
-            <>
-              <div className="ceremony-axis-table">
-                <div className="axis-row">
-                  <span className="axis-label">Material</span>
-                  <span className="axis-value">{relic.material_class} — {relic.material_sub}</span>
-                </div>
-                <div className="axis-row">
-                  <span className="axis-label">Provenance</span>
-                  <span className="axis-value">{relic.provenance_class} — {relic.provenance_sub}</span>
-                </div>
-                <div className="axis-row">
-                  <span className="axis-label">Dignity</span>
-                  <span className="axis-value">{relic.theological_dignity}</span>
-                </div>
+            <div className="ceremony-axis-table">
+              <div className="axis-row">
+                <span className="axis-label">Material</span>
+                <span className="axis-value">{relic.material_class} — {relic.material_sub}</span>
               </div>
+              <div className="axis-row">
+                <span className="axis-label">Provenance</span>
+                <span className="axis-value">{relic.provenance_class} — {relic.provenance_sub}</span>
+              </div>
+              <div className="axis-row">
+                <span className="axis-label">Dignity</span>
+                <span className="axis-value">{relic.theological_dignity}</span>
+              </div>
+            </div>
+          )}
+
+          {isFullCeremony && phase === 'reveal' && (
+            <>
               <div className="ceremony-lore">{relic.description}</div>
               <div className="ceremony-fact"><em>✦ {relic.interestingFact}</em></div>
             </>
           )}
 
-          {!isFullCeremony && (
+          {!isFullCeremony && phase === 'reveal' && (
             <div className="ceremony-lore-short">{relic.description}</div>
           )}
 

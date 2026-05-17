@@ -3376,36 +3376,11 @@ body {
   animation: rest-panel-up 0.4s ease-out;
 }
 
-.intro-castle-art {
-  margin: -32px -28px 20px;
-  border-bottom: 2px solid var(--gold);
-  border-radius: 10px 10px 0 0;
-  overflow: hidden;
-  background: #5a4fb8;
-  position: relative;
-}
-
-.castle-art {
-  display: block;
-  width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-/* faint C64 scanlines */
-.intro-castle-art::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.16) 0,
-    rgba(0, 0, 0, 0.16) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+.intro-illumination {
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+  opacity: 0.8;
 }
 
 .intro-title-block {
