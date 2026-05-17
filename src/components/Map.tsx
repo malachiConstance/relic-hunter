@@ -397,7 +397,7 @@ export function Map({ onRelicClick, onPlaceClick }: Props) {
       opacity: 0.7,
     }).addTo(map)
 
-    const revealEvery = Math.max(1, Math.round(steps / (totalMeters / 20)))
+    const revealEvery = Math.max(1, Math.round(steps / (totalMeters / 10)))
     const stepSoundEvery = Math.max(1, Math.round(steps / (totalMeters / 0.8)))
     let step = 0
 

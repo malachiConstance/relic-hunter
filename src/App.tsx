@@ -15,6 +15,7 @@ import { RestPanel } from './components/RestPanel'
 import { IntroScreen } from './components/IntroScreen'
 import { useCollection } from './hooks/useCollection'
 import { useGameStore, MAX_FERVOR } from './store/useGameStore'
+import { cellsRevealedAt, FOG_REVEAL_RING_SPAWN } from './engine/fogOfWar'
 import { MILAN_RELICS, RELICS, type Relic } from './data/relics'
 import { REST_PLACES } from './data/restPlaces'
 import { getActiveFeastToday } from './data/liturgicalCalendar'
@@ -80,6 +81,12 @@ export default function App() {
     // Migrate any player who has collected relics but hasn't had the discovery system initialised
     // (knownRelicIds still at its seed of 1 entry means they're a pre-discovery-system save).
     const needsDiscoveryMigration = hasProgress && state.knownRelicIds.length <= 1
+    // Always seed the spawn reveal if exploredCells is empty (new game or reset)
+    if (state.exploredCells.length === 0) {
+      useGameStore.getState().revealCells(
+        cellsRevealedAt(state.pilgrimLat, state.pilgrimLng, FOG_REVEAL_RING_SPAWN)
+      )
+    }
     if (state.tutorialStep === 0) {
       if (hasProgress) {
         useGameStore.setState({
