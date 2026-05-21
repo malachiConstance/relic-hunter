@@ -133,7 +133,13 @@ export default function App() {
       {/* Header */}
       <header className="app-header">
         <div className="header-left">
-          <h1 className="app-title">⚜ I Predatori delle Reliquie Sacre</h1>
+          <h1
+            className="app-title"
+            onDoubleClick={() => {
+              localStorage.removeItem('relic-hunter-game-v3')
+              location.reload()
+            }}
+          >⚜ I Predatori delle Reliquie Sacre</h1>
           <span className="app-city">
             {screen === 'map' ? 'Milano, Italia' : screen === 'codex' ? 'Reliquary Codex' : screen === 'quests' ? 'Quest Board' : 'Chapel'}
           </span>
