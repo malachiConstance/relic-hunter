@@ -180,93 +180,92 @@ export default function App() {
       {/* Main content area */}
       <div className="screen-container">
 
-        {/* MAP SCREEN */}
-        {screen === 'map' && (
-          <div className="map-container">
-            <Map
-              onRelicClick={relic => { setRestPlaceId(null); setTeaserRelic(relic.id) }}
-              onPlaceClick={placeId => { setTeaserRelic(null); setRestPlaceId(placeId) }}
-            />
+        {/* MAP — always mounted so fog canvas survives screen switches */}
+        <div className="map-container">
+          <Map
+            onRelicClick={relic => { setRestPlaceId(null); setTeaserRelic(relic.id) }}
+            onPlaceClick={placeId => { setTeaserRelic(null); setRestPlaceId(placeId) }}
+          />
 
-            <div className="map-legend">
-              <div className="legend-title">Categories</div>
-              {[
-                { label: 'Nail of the Cross', color: '#8B1A1A' },
-                { label: 'True Cross', color: '#5C3A1E' },
-                { label: 'Three Kings', color: '#C9A84C' },
-                { label: "Saint's Body", color: '#6B4C8A' },
-                { label: "Saint's Bones", color: '#8A7A5A' },
-                { label: 'Holy Vestments', color: '#2A5C8A' },
-                { label: 'Instrument', color: '#5A5A5A' },
-              ].map(({ label, color }) => (
-                <div key={label} className="legend-item">
-                  <span className="legend-dot" style={{ background: color }} />
-                  <span>{label}</span>
-                </div>
-              ))}
-            </div>
+          {screen === 'map' && (
+            <>
+              <div className="map-legend">
+                <div className="legend-title">Categories</div>
+                {[
+                  { label: 'Nail of the Cross', color: '#8B1A1A' },
+                  { label: 'True Cross', color: '#5C3A1E' },
+                  { label: 'Three Kings', color: '#C9A84C' },
+                  { label: "Saint's Body", color: '#6B4C8A' },
+                  { label: "Saint's Bones", color: '#8A7A5A' },
+                  { label: 'Holy Vestments', color: '#2A5C8A' },
+                  { label: 'Instrument', color: '#5A5A5A' },
+                ].map(({ label, color }) => (
+                  <div key={label} className="legend-item">
+                    <span className="legend-dot" style={{ background: color }} />
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
 
-            {/* Contextual "Rest here" button — hidden when any modal is open */}
-            {nearbyPlace && !walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && screen === 'map' && (
-              <button
-                className="map-rest-here-btn"
-                onClick={() => setRestPlaceId(nearbyPlace.id)}
-              >
-                <span className="map-rest-here-icon">
-                  {nearbyPlace.type === 'tavern' ? '⚱' : nearbyPlace.type === 'kloster' ? '✝' : '⛪'}
-                </span>
-                <span className="map-rest-here-text">
-                  {nearbyPlace.type === 'tavern' ? 'Enter tavern' : 'Rest here'}
-                  <em>{nearbyPlace.name}</em>
-                </span>
-              </button>
-            )}
+              {/* Contextual "Rest here" button — hidden when any modal is open */}
+              {nearbyPlace && !walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && (
+                <button
+                  className="map-rest-here-btn"
+                  onClick={() => setRestPlaceId(nearbyPlace.id)}
+                >
+                  <span className="map-rest-here-icon">
+                    {nearbyPlace.type === 'tavern' ? '⚱' : nearbyPlace.type === 'kloster' ? '✝' : '⛪'}
+                  </span>
+                  <span className="map-rest-here-text">
+                    {nearbyPlace.type === 'tavern' ? 'Enter tavern' : 'Rest here'}
+                    <em>{nearbyPlace.name}</em>
+                  </span>
+                </button>
+              )}
 
-            {/* Pray for Fervor — recover spiritual energy anywhere, e.g. after a robbery */}
-            {!walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && (
-              <ProgressButton
-                className="map-pray-btn"
-                label="Pray for Fervor"
-                busyLabel="Praying…"
-                hint="+1 Fervor"
-                durationMs={5000}
-                mode="cooldown"
-                disabled={fervor >= MAX_FERVOR}
-                onActivate={() => gainFervor(1)}
-              />
-            )}
-
-            {/* Quest progress indicator on map */}
-            {(pendingQuestCount > 0 || completableCount > 0) && (
-              <div
-                className="map-quest-indicator"
-                onClick={() => setScreen('quests')}
-              >
-                {completableCount > 0 ? (
-                  <span className="quest-ready">✦ {completableCount} quest{completableCount > 1 ? 's' : ''} ready to claim!</span>
-                ) : (
-                  <span>{pendingQuestCount} quest{pendingQuestCount > 1 ? 's' : ''} in progress</span>
+              {/* Top-right stack: quest indicator + pray button */}
+              <div className="map-top-right-stack">
+                {(pendingQuestCount > 0 || completableCount > 0) && (
+                  <div className="map-quest-indicator" onClick={() => setScreen('quests')}>
+                    {completableCount > 0 ? (
+                      <span className="quest-ready">✦ {completableCount} quest{completableCount > 1 ? 's' : ''} ready to claim!</span>
+                    ) : (
+                      <span>{pendingQuestCount} quest{pendingQuestCount > 1 ? 's' : ''} in progress</span>
+                    )}
+                  </div>
+                )}
+                {!walkingToCoord && !restPlaceId && !teaserRelicId && !ceremonyRelicId && (
+                  <ProgressButton
+                    className="map-pray-btn"
+                    label="Pray for Fervor"
+                    busyLabel="Praying…"
+                    hint="+1"
+                    durationMs={5000}
+                    mode="cooldown"
+                    disabled={fervor >= MAX_FERVOR}
+                    onActivate={() => gainFervor(1)}
+                  />
                 )}
               </div>
-            )}
-          </div>
-        )}
+            </>
+          )}
+        </div>
 
-        {/* CODEX SCREEN */}
+        {/* CODEX SCREEN — overlays the map */}
         {screen === 'codex' && (
           <div className="fullscreen-panel">
             <CodexEntry onClose={() => setScreen('map')} />
           </div>
         )}
 
-        {/* QUEST BOARD SCREEN */}
+        {/* QUEST BOARD SCREEN — overlays the map */}
         {screen === 'quests' && (
           <div className="fullscreen-panel">
             <QuestBoard onClose={() => setScreen('map')} onNavigateToMap={() => setScreen('map')} />
           </div>
         )}
 
-        {/* CHAPEL SCREEN */}
+        {/* CHAPEL SCREEN — overlays the map */}
         {screen === 'chapel' && (
           <div className="fullscreen-panel">
             <ReliquaryChapel onClose={() => setScreen('map')} />

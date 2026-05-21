@@ -58,3 +58,24 @@ this would enhance game atmosphere greatly
 
 ----- datetime: 2026-05-17 19:42
 commit to vercel
+
+----- datetime: 2026-05-17 19:50
+push it
+
+----- datetime: 2026-05-17 20:05
+i dont like the castello graphic. why pyramids in background??? use this reference image (B&W sketch of Castello Sforzesco courtyard with the big round tower) as template to create amiga-style pixel graphic
+
+----- datetime: 2026-05-17 20:35
+when taking theological exam, make the history and fun facts disappear. so show text when arriving on spot, but user has to have read it BEFORE he starts exam, not look it up during exam
+
+----- datetime: 2026-05-17 21:10
+i have graphic for castello sforzesco now, but its a jpg. where to put it
+
+----- datetime: 2026-05-17 21:15
+ok add graphic to code, deploy to vercel, commit and push
+
+----- datetime: 2026-05-17 21:30
+i have trouble to get vercel app back to initial mode where new player would start (initial screen with castello text). hard refresh etc doesnt help
+
+----- datetime: 2026-05-21 00:00
+when i am i modal like 'scroll' or 'codex' and exit, i see full map for 1 second, and only then fog of war sets in with unexplored parts obscured. fix eg by keeping obscured map in background and modals are just overlaid or any other method you think - simple and fast solution wins. rename "pray for fervor +1 fervor" to "pray for ferver +1" and move button to top right, just below "2 quests in progress". it is very easy for player to see that locations like "ruin near porta orientale" are traps, so either we have to mix good and bad events for these 'suspicious' locations (60% good outcome, 40% bad outcome) or we have to integrate bad events to regular places, too (20% chance of bad outcome). so player has to weigh the risk. in the exam, the right answer only pops up for 1 second and disappears again and also displaces/moves the gui below. i dont like that. make the answer text bigger by 1pt (make ALL small texts bigger by 1pt EVERYWHERE), add 'OK' to give player time to read text and always avoid gui parts moving other gui elements around

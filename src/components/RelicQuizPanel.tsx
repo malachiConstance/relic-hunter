@@ -32,20 +32,18 @@ export function RelicQuizPanel({ relicId, onPass, onFail }: Props) {
     newAnswers[current] = isCorrect ? 'correct' : 'wrong'
     setAnswers(newAnswers)
     setRevealed(true)
+  }
 
-    setTimeout(() => {
-      setRevealed(false)
-      if (current + 1 >= questions.length) {
-        // All answered — evaluate
-        const finalCorrect = newAnswers.filter(a => a === 'correct').length
-        setTimeout(() => {
-          if (finalCorrect >= 2) onPass()
-          else onFail()
-        }, 900)
-      } else {
-        setCurrent(c => c + 1)
-      }
-    }, 1200)
+  function handleOK() {
+    const newAnswers = answers
+    setRevealed(false)
+    if (current + 1 >= questions.length) {
+      const finalCorrect = newAnswers.filter(a => a === 'correct').length
+      if (finalCorrect >= 2) onPass()
+      else onFail()
+    } else {
+      setCurrent(c => c + 1)
+    }
   }
 
   const progressDots = answers.map((a, i) => {
@@ -72,34 +70,29 @@ export function RelicQuizPanel({ relicId, onPass, onFail }: Props) {
 
       <div className="quiz-question">{q.question}</div>
 
-      <div className="quiz-answers">
-        {q.answers.map((answer, idx) => {
-          let cls = 'quiz-answer-btn'
-          if (revealed) {
-            if (idx === q.correctIndex) cls += ' quiz-answer-correct'
-            else if (answers[current] === 'wrong' && idx !== q.correctIndex) cls += ' quiz-answer-wrong-choice'
-          }
-          return (
-            <button
-              key={idx}
-              className={cls}
-              disabled={revealed}
-              onClick={() => handleAnswer(idx)}
-            >
-              {answer}
-            </button>
-          )
-        })}
-      </div>
-
-      {revealed && (
-        <div className={`quiz-feedback ${answers[current] === 'correct' ? 'quiz-feedback-correct' : 'quiz-feedback-wrong'}`}>
-          <div className="quiz-feedback-verdict">
-            {answers[current] === 'correct' ? '✓ Recte responsum' : '✗ Non ita'}
+      <div className="quiz-answer-feedback-area">
+        {!revealed ? (
+          <div className="quiz-answers">
+            {q.answers.map((answer, idx) => (
+              <button
+                key={idx}
+                className="quiz-answer-btn"
+                onClick={() => handleAnswer(idx)}
+              >
+                {answer}
+              </button>
+            ))}
           </div>
-          <div className="quiz-feedback-explanation">{q.explanation}</div>
-        </div>
-      )}
+        ) : (
+          <div className={`quiz-feedback ${answers[current] === 'correct' ? 'quiz-feedback-correct' : 'quiz-feedback-wrong'}`}>
+            <div className="quiz-feedback-verdict">
+              {answers[current] === 'correct' ? '✓ Recte responsum' : '✗ Non ita'}
+            </div>
+            <div className="quiz-feedback-explanation">{q.explanation}</div>
+            <button className="quiz-ok-btn" onClick={handleOK}>OK →</button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

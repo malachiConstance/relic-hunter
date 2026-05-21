@@ -451,18 +451,35 @@ export const useGameStore = create<GameState>()(
 
         const robbery = ROBBERY_EVENTS[Math.floor(Math.random() * ROBBERY_EVENTS.length)]
 
-        // False lead: always robbed
+        // False lead: 60% peaceful (fervor restored, neutral encounter), 40% robbery
         if (place.isFalseLead) {
-          const essenceLoss = robbery.lossType !== 'fervor' ? (robbery.essenceLoss ?? 30) : 0
-          set(state => ({
-            fervor: MIN_FERVOR_AFTER_ROBBERY,
-            holyEssence: robbery.lossType !== 'fervor' ? Math.max(0, state.holyEssence - essenceLoss) : state.holyEssence,
-            resolvedFalseLeads: state.resolvedFalseLeads.includes(placeId)
-              ? state.resolvedFalseLeads
-              : [...state.resolvedFalseLeads, placeId],
-            pendingRobbery: robbery,
-            pendingEncounter: null,
-          }))
+          const resolvedFalseLeads = get().resolvedFalseLeads.includes(placeId)
+            ? get().resolvedFalseLeads
+            : [...get().resolvedFalseLeads, placeId]
+
+          if (Math.random() < 0.6) {
+            // Peaceful outcome — humble rest among ruins
+            get().gainFervor(place.fervorRestore)
+            const pool = place.encounterPool
+            const encId = pool[Math.floor(Math.random() * pool.length)]
+            const encounter = getEncounter(encId) ?? null
+            set({
+              resolvedFalseLeads,
+              pendingEncounter: encounter,
+              pendingEncounterRevealApplied: false,
+              pendingRobbery: null,
+            })
+          } else {
+            // Robbery outcome
+            const essenceLoss = robbery.lossType !== 'fervor' ? (robbery.essenceLoss ?? 30) : 0
+            set(state => ({
+              fervor: MIN_FERVOR_AFTER_ROBBERY,
+              holyEssence: robbery.lossType !== 'fervor' ? Math.max(0, state.holyEssence - essenceLoss) : state.holyEssence,
+              resolvedFalseLeads,
+              pendingRobbery: robbery,
+              pendingEncounter: null,
+            }))
+          }
           return
         }
 

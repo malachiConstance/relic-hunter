@@ -73,7 +73,7 @@ body {
   font-family: 'IM Fell English', serif;
   font-style: italic;
   color: var(--parchment-dark);
-  font-size: 0.95rem;
+  font-size: 1.03rem;
   opacity: 0.8;
 }
 
@@ -86,13 +86,13 @@ body {
 .collection-count {
   font-family: 'Cinzel', serif;
   color: var(--gold);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   letter-spacing: 0.05em;
 }
 
 .btn-scroll {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   padding: 6px 14px;
   background: transparent;
   border: 1px solid var(--gold);
@@ -139,7 +139,7 @@ body {
 
 .legend-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--sepia);
@@ -152,7 +152,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--ink-light);
   margin-bottom: 4px;
 }
@@ -234,7 +234,7 @@ body {
 
 .relic-category-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
@@ -244,7 +244,7 @@ body {
 
 .relic-collected-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   color: var(--gold);
   letter-spacing: 0.08em;
 }
@@ -282,25 +282,25 @@ body {
 
 .relic-church-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink);
 }
 
 .relic-address {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--sepia);
   margin-top: 2px;
 }
 
 .relic-distance {
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
 }
 
 .relic-description {
-  font-size: 0.92rem;
+  font-size: 1.0rem;
   line-height: 1.65;
   color: var(--ink-light);
   margin-bottom: 14px;
@@ -315,7 +315,7 @@ body {
 
 .relic-fact-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--sepia);
@@ -325,14 +325,14 @@ body {
 
 .relic-fact p {
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.6;
   color: var(--ink-light);
 }
 
 .relic-year {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.1em;
   color: var(--sepia);
   opacity: 0.7;
@@ -349,7 +349,7 @@ body {
   width: 100%;
   padding: 11px;
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   letter-spacing: 0.1em;
   border: none;
   cursor: pointer;
@@ -379,7 +379,7 @@ body {
   width: 100%;
   padding: 9px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   letter-spacing: 0.1em;
   background: transparent;
   border: 1px dashed var(--sepia);
@@ -427,7 +427,7 @@ body {
   font-style: italic;
   text-align: center;
   color: var(--sepia);
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--parchment-shadow);
@@ -469,13 +469,13 @@ body {
 
 .goal-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--ink);
   margin-bottom: 3px;
 }
 
 .goal-desc {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--sepia);
   line-height: 1.4;
 }
@@ -507,15 +507,17 @@ body {
 }
 
 .fullscreen-panel {
-  flex: 1;
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
   background: var(--parchment);
+  z-index: 800;
 }
 
 /* ── Header extras ── */
 .header-essence {
   font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--gold);
   display: flex;
   align-items: center;
@@ -525,7 +527,7 @@ body {
 
 .essence-icon {
   color: var(--gold);
-  font-size: 0.9rem;
+  font-size: 0.98rem;
 }
 
 /* ── Fervor Spiritalis indicator ── */
@@ -534,13 +536,13 @@ body {
   align-items: center;
   gap: 5px;
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #E8C96C;
   cursor: default;
 }
 
 .fervor-icon {
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: #E8C96C;
   opacity: 0.9;
 }
@@ -571,7 +573,7 @@ body {
   border-bottom: 1px solid rgba(201,168,76,0.4);
   color: var(--gold);
   font-family: 'IM Fell English', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   padding: 5px 16px;
   text-align: center;
   z-index: 900;
@@ -580,18 +582,14 @@ body {
 
 /* ── Map quest indicator ── */
 .map-quest-indicator {
-  position: absolute;
-  top: 12px;
-  right: 16px;
   background: rgba(42, 26, 10, 0.88);
   border: 1px solid var(--gold);
   color: var(--parchment);
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.06em;
   padding: 6px 12px;
   cursor: pointer;
-  z-index: 500;
   transition: all 0.2s;
 }
 
@@ -631,7 +629,7 @@ body {
 }
 .goals-essence-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -646,7 +644,7 @@ body {
 
 .goals-title-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   padding: 3px 8px;
   border: 1px solid var(--gold);
   color: var(--gold);
@@ -679,7 +677,7 @@ body {
   justify-content: center;
   gap: 2px;
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   letter-spacing: 0.06em;
   transition: color 0.2s;
   position: relative;
@@ -696,7 +694,7 @@ body {
 }
 
 .nav-icon { font-size: 1.3rem; line-height: 1; }
-.nav-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.nav-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; }
 
 .nav-badge {
   position: absolute;
@@ -704,7 +702,7 @@ body {
   right: calc(50% - 16px);
   background: var(--crimson);
   color: var(--parchment);
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   font-family: 'Cinzel', serif;
   border-radius: 50%;
   width: 16px;
@@ -756,7 +754,7 @@ body {
   font-style: italic;
   text-align: center;
   color: var(--sepia);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   margin-bottom: 10px;
 }
 
@@ -776,7 +774,7 @@ body {
 
 .codex-progress-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--sepia);
   text-align: center;
   letter-spacing: 0.06em;
@@ -794,7 +792,7 @@ body {
 
 .codex-filter-btn {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   letter-spacing: 0.08em;
   padding: 5px 10px;
   background: transparent;
@@ -845,7 +843,7 @@ body {
 
 .codex-category-header-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--sepia);
@@ -853,7 +851,7 @@ body {
 
 .codex-category-count {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   color: var(--parchment-shadow);
   letter-spacing: 0.06em;
 }
@@ -889,7 +887,7 @@ body {
 
 .codex-relic-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.66rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
@@ -900,7 +898,7 @@ body {
 
 .codex-relic-collected-mark {
   color: var(--gold);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   flex-shrink: 0;
 }
 
@@ -908,7 +906,7 @@ body {
 .codex-relic-name {
   font-family: 'IM Fell English', serif;
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--ink);
   padding: 5px 8px 6px;
   flex: 1;
@@ -927,7 +925,7 @@ body {
 }
 
 .codex-relic-meta {
-  font-size: 0.67rem;
+  font-size: 0.75rem;
   color: var(--sepia);
   line-height: 1.45;
 }
@@ -936,13 +934,13 @@ body {
 
 .codex-relic-rarity {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
 }
 
 .codex-relic-pts {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.04em;
   font-weight: 700;
   margin-top: 2px;
@@ -950,7 +948,7 @@ body {
 
 .codex-feast-banner {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   color: var(--gold);
   margin-top: 3px;
   letter-spacing: 0.05em;
@@ -960,7 +958,7 @@ body {
 .codex-quick-collect {
   margin-top: 5px;
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   letter-spacing: 0.06em;
   padding: 3px 8px;
   background: transparent;
@@ -993,12 +991,12 @@ body {
 .codex-silhouette-icon { opacity: 0.4; }
 .codex-silhouette-hint {
   font-style: italic;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: var(--sepia);
 }
 .codex-silhouette-city {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--sepia);
   letter-spacing: 0.06em;
 }
@@ -1006,7 +1004,7 @@ body {
 /* Full relic view */
 .codex-back-btn {
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   letter-spacing: 0.08em;
   padding: 8px 14px;
   background: transparent;
@@ -1035,7 +1033,7 @@ body {
 .codex-full-relic-icon { display: flex; justify-content: center; }
 .codex-incorruptio-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--gold);
   letter-spacing: 0.1em;
   animation: pulse-gold 2s ease-in-out infinite;
@@ -1053,7 +1051,7 @@ body {
 
 .codex-full-english {
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--sepia);
   margin-bottom: 10px;
 }
@@ -1066,7 +1064,7 @@ body {
 
 .codex-tag {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   padding: 2px 8px;
   color: #fff;
@@ -1088,7 +1086,7 @@ body {
 
 .codex-axis-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--sepia);
@@ -1102,13 +1100,13 @@ body {
   grid-template-columns: 115px 1fr;
   gap: 6px;
   margin-bottom: 6px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   align-items: baseline;
 }
 
 .codex-axis-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--sepia);
   letter-spacing: 0.05em;
 }
@@ -1116,12 +1114,12 @@ body {
 .codex-axis-value {
   color: var(--ink);
   font-style: italic;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 
 .codex-dignity-desc {
   margin-top: 10px;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: var(--sepia);
   line-height: 1.5;
   border-top: 1px solid var(--parchment-shadow);
@@ -1148,7 +1146,7 @@ body {
 
 .codex-stat-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--sepia);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1156,7 +1154,7 @@ body {
 
 .codex-stat-value {
   color: var(--ink);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
 }
 
 .codex-stat-highlight {
@@ -1169,7 +1167,7 @@ body {
 .codex-set-progress {
   padding: 8px 20px;
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--gold);
   letter-spacing: 0.06em;
 }
@@ -1179,7 +1177,7 @@ body {
 
 .codex-lore-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--sepia);
@@ -1187,7 +1185,7 @@ body {
 }
 
 .codex-lore-text {
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.65;
   color: var(--ink-light);
   margin-bottom: 12px;
@@ -1201,7 +1199,7 @@ body {
 
 .codex-fact-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--sepia);
@@ -1211,7 +1209,7 @@ body {
 
 .codex-fact p {
   font-style: italic;
-  font-size: 0.84rem;
+  font-size: 0.92rem;
   line-height: 1.6;
   color: var(--ink-light);
 }
@@ -1220,7 +1218,7 @@ body {
 .codex-related { padding: 10px 20px; }
 .codex-related-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--sepia);
   letter-spacing: 0.06em;
   margin-bottom: 6px;
@@ -1231,7 +1229,7 @@ body {
 .codex-related-chip {
   font-family: 'IM Fell English', serif;
   font-style: italic;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   padding: 3px 8px;
   background: rgba(0,0,0,0.05);
   color: var(--sepia);
@@ -1241,7 +1239,7 @@ body {
 /* Locked notice */
 .codex-locked-notice {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--sepia);
   text-align: center;
   padding: 14px;
@@ -1318,7 +1316,7 @@ body {
   font-style: italic;
   text-align: center;
   color: var(--sepia);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
 }
 
 /* Feast banner */
@@ -1333,9 +1331,9 @@ body {
 }
 
 .quest-feast-icon { color: var(--gold); font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
-.quest-feast-name { font-family: 'Cinzel', serif; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 3px; }
-.quest-feast-text { font-style: italic; font-size: 0.8rem; color: var(--sepia); margin-bottom: 2px; }
-.quest-feast-bonus-text { font-family: 'Cinzel', serif; font-size: 0.68rem; color: var(--gold); letter-spacing: 0.04em; }
+.quest-feast-name { font-family: 'Cinzel', serif; font-size: 0.86rem; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 3px; }
+.quest-feast-text { font-style: italic; font-size: 0.88rem; color: var(--sepia); margin-bottom: 2px; }
+.quest-feast-bonus-text { font-family: 'Cinzel', serif; font-size: 0.76rem; color: var(--gold); letter-spacing: 0.04em; }
 
 .quest-list {
   flex: 1;
@@ -1382,7 +1380,7 @@ body {
 
 .quest-type-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--sepia);
@@ -1392,7 +1390,7 @@ body {
 
 .quest-feast-bonus {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--gold);
   letter-spacing: 0.06em;
   margin-left: auto;
@@ -1410,14 +1408,14 @@ body {
 
 .quest-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   letter-spacing: 0.04em;
   margin-bottom: 8px;
 }
 
 .quest-description {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   line-height: 1.55;
   color: var(--ink-light);
   font-style: italic;
@@ -1428,13 +1426,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   margin-bottom: 8px;
 }
 
 .quest-objective-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--sepia);
@@ -1442,7 +1440,7 @@ body {
 
 .quest-incorruptio {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--gold);
   letter-spacing: 0.06em;
   margin-bottom: 8px;
@@ -1454,7 +1452,7 @@ body {
 
 .quest-progress-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--sepia);
   letter-spacing: 0.04em;
   margin-bottom: 4px;
@@ -1477,7 +1475,7 @@ body {
 
 .quest-progress-pct {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--sepia);
   text-align: right;
   margin-top: 2px;
@@ -1496,7 +1494,7 @@ body {
 .quest-rewards { margin-bottom: 0; }
 .quest-rewards-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--sepia);
@@ -1512,18 +1510,18 @@ body {
 
 .quest-reward-essence {
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--gold);
   font-weight: 700;
 }
 
 .quest-reward-title {
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   color: var(--ink-light);
 }
 
 .quest-reward-buff {
-  font-size: 0.66rem;
+  font-size: 0.74rem;
   color: var(--sepia);
   font-style: italic;
 }
@@ -1532,7 +1530,7 @@ body {
   width: 100%;
   padding: 10px;
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0.1em;
   background: var(--gold);
   color: var(--ink);
@@ -1556,14 +1554,14 @@ body {
 
 .quest-refresh-info {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--sepia);
   letter-spacing: 0.04em;
 }
 
 .quest-refresh-btn {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.08em;
   padding: 6px 14px;
   background: transparent;
@@ -1629,7 +1627,7 @@ body {
 .chapel-subtitle {
   font-style: italic;
   color: var(--parchment-dark);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   opacity: 0.7;
 }
 
@@ -1659,7 +1657,7 @@ body {
 
 .chapel-essence-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--parchment-dark);
@@ -1672,7 +1670,7 @@ body {
   padding: 10px 14px;
   background: rgba(201,168,76,0.1);
   border: 1px solid rgba(201,168,76,0.3);
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--gold);
   font-style: italic;
   text-align: center;
@@ -1688,7 +1686,7 @@ body {
 
 .chapel-buffs-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--gold);
@@ -1704,12 +1702,12 @@ body {
 
 .chapel-buff-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--gold);
 }
 
-.chapel-buff-effect { font-size: 0.75rem; color: var(--parchment-dark); }
-.chapel-buff-timer { font-size: 0.65rem; color: var(--sepia); }
+.chapel-buff-effect { font-size: 0.83rem; color: var(--parchment-dark); }
+.chapel-buff-timer { font-size: 0.73rem; color: var(--sepia); }
 
 /* Titles */
 .chapel-titles {
@@ -1721,7 +1719,7 @@ body {
 
 .chapel-titles-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--parchment-dark);
@@ -1731,7 +1729,7 @@ body {
 
 .chapel-title-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   padding: 3px 8px;
   border: 1px solid var(--gold);
   color: var(--gold);
@@ -1757,7 +1755,7 @@ body {
 }
 .chapel-stat-lbl {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--parchment-dark);
@@ -1776,7 +1774,7 @@ body {
 
 .chapel-section-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 10px;
@@ -1814,7 +1812,7 @@ body {
 .chapel-slot-shadow { display: flex; justify-content: center; }
 
 .chapel-slot-hint {
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--parchment-dark);
   opacity: 0.5;
   text-align: center;
@@ -1822,7 +1820,7 @@ body {
 
 .chapel-slot-cat {
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.63rem;
   letter-spacing: 0.04em;
   text-align: center;
   line-height: 1.2;
@@ -1838,7 +1836,7 @@ body {
   padding: 24px 20px;
   color: var(--parchment-dark);
   font-style: italic;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   opacity: 0.6;
   border-top: 1px solid rgba(201,168,76,0.15);
   margin-top: 20px;
@@ -1873,7 +1871,7 @@ body {
   background: none;
   border: none;
   color: var(--sepia);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   text-decoration: underline;
   cursor: pointer;
   padding: 4px 0;
@@ -1889,7 +1887,7 @@ body {
 
 .quest-section-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--sepia);
@@ -1914,12 +1912,12 @@ body {
 .tutorial-done-badge {
   color: #4A6741;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.08em;
 }
 
 .quest-hint {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--sepia);
   margin: 8px 0;
   padding: 6px 10px;
@@ -1936,7 +1934,7 @@ body {
   border-radius: 50%;
   width: 24px;
   height: 24px;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   cursor: pointer;
   line-height: 1;
   display: flex;
@@ -1981,7 +1979,7 @@ body {
 .glossary-tooltip-word {
   display: block;
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: var(--gold);
   margin-bottom: 4px;
   letter-spacing: 0.06em;
@@ -1989,7 +1987,7 @@ body {
 
 .glossary-tooltip-short {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--parchment);
   line-height: 1.4;
   font-style: italic;
@@ -2031,7 +2029,7 @@ body {
 }
 
 .help-subtitle {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--sepia);
   margin-top: 2px;
 }
@@ -2048,7 +2046,7 @@ body {
   background: none;
   border: none;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--sepia);
   cursor: pointer;
   letter-spacing: 0.05em;
@@ -2067,7 +2065,7 @@ body {
 }
 
 .help-intro {
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--ink-light);
   line-height: 1.6;
   margin-bottom: 14px;
@@ -2075,7 +2073,7 @@ body {
 }
 
 .help-para {
-  font-size: 0.83rem;
+  font-size: 0.91rem;
   color: var(--ink-light);
   line-height: 1.6;
   margin-bottom: 8px;
@@ -2103,7 +2101,7 @@ body {
 
 .help-step-num {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   min-width: 44px;
   letter-spacing: 0.06em;
@@ -2111,26 +2109,26 @@ body {
 
 .help-step-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink);
   flex: 1;
 }
 
 .help-step-chevron {
-  font-size: 0.65rem;
+  font-size: 0.73rem;
   color: var(--sepia);
 }
 
 .help-step-body {
   padding: 12px;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink-light);
   line-height: 1.55;
 }
 
 .help-step-reward {
   color: var(--gold);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   margin-bottom: 8px;
 }
 
@@ -2145,19 +2143,19 @@ body {
   background: rgba(201,168,76,0.1);
   border-left: 2px solid var(--gold);
   border-radius: 2px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 
 .help-step-howto-label {
   font-weight: bold;
   margin-bottom: 4px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--ink);
 }
 
 .help-step-howto-line {
   padding: 2px 0;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 
 /* Concept articles */
@@ -2176,7 +2174,7 @@ body {
   align-items: center;
   cursor: pointer;
   font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink);
   text-align: left;
 }
@@ -2195,7 +2193,7 @@ body {
 
 .help-completion-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   color: var(--ink);
   margin-bottom: 8px;
 }
@@ -2216,13 +2214,13 @@ body {
   align-items: center;
   cursor: pointer;
   font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--gold);
   text-align: left;
 }
 
 .help-glossary-short {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--sepia);
   font-style: italic;
   padding: 0 2px 8px;
@@ -2247,7 +2245,7 @@ body {
   color: #8B1A1A;
   padding: 7px 18px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   letter-spacing: 0.06em;
   cursor: pointer;
   border-radius: 3px;
@@ -2286,7 +2284,7 @@ body {
 }
 
 .reset-latin {
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--sepia);
   text-align: center;
   line-height: 1.6;
@@ -2296,7 +2294,7 @@ body {
 }
 
 .reset-warning {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink);
   text-align: center;
   margin-bottom: 20px;
@@ -2315,7 +2313,7 @@ body {
   border: none;
   padding: 11px;
   font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   cursor: pointer;
   border-radius: 3px;
   letter-spacing: 0.05em;
@@ -2327,7 +2325,7 @@ body {
   color: var(--sepia);
   padding: 10px;
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   cursor: pointer;
   border-radius: 3px;
 }
@@ -2344,7 +2342,7 @@ body {
   padding: 10px 16px;
   max-width: 320px;
   width: calc(100% - 32px);
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   font-style: italic;
   line-height: 1.5;
   text-align: center;
@@ -2400,7 +2398,7 @@ body {
   color: var(--gold);
   padding: 6px 12px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   cursor: pointer;
   border-radius: 3px;
   margin: 8px 0 4px;
@@ -2463,7 +2461,7 @@ body {
   background: none;
   border: none;
   color: #444;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   cursor: pointer;
   font-family: 'Cinzel', serif;
 }
@@ -2506,7 +2504,7 @@ body {
 
 .teaser-category {
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -2519,19 +2517,19 @@ body {
 }
 
 .teaser-church {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--sepia);
   margin-bottom: 10px;
 }
 
 .teaser-distance {
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--ink-light);
   margin-bottom: 12px;
 }
 
 .teaser-hint {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--sepia);
   margin-bottom: 12px;
   padding: 6px 12px;
@@ -2561,7 +2559,7 @@ body {
 
 .teaser-collected-badge {
   color: var(--gold);
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   margin-bottom: 8px;
 }
 
@@ -2569,7 +2567,7 @@ body {
   background: none;
   border: none;
   color: var(--sepia);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   text-decoration: underline;
   cursor: pointer;
   padding: 2px 0;
@@ -2657,7 +2655,7 @@ body {
 
 .ceremony-newly-venerated {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0.1em;
   margin-bottom: 6px;
 }
@@ -2670,7 +2668,7 @@ body {
 }
 
 .ceremony-relic-latin {
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   color: var(--sepia);
 }
 
@@ -2685,7 +2683,7 @@ body {
 .ceremony-badge {
   border: 1px solid;
   padding: 3px 8px;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   border-radius: 2px;
   font-family: 'Cinzel', serif;
   letter-spacing: 0.06em;
@@ -2702,7 +2700,7 @@ body {
 .axis-row {
   display: flex;
   gap: 8px;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   padding: 4px 0;
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
@@ -2720,14 +2718,14 @@ body {
 }
 
 .ceremony-lore, .ceremony-lore-short {
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--ink-light);
   line-height: 1.6;
   margin-bottom: 10px;
 }
 
 .ceremony-fact {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--sepia);
   border-left: 2px solid var(--gold);
   padding-left: 10px;
@@ -2759,7 +2757,7 @@ body {
   color: var(--sepia);
   padding: 10px;
   font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   cursor: pointer;
   border-radius: 3px;
 }
@@ -2777,7 +2775,7 @@ body {
 }
 
 .ceremony-pass-sub {
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   color: var(--sepia);
   font-style: italic;
 }
@@ -2798,7 +2796,7 @@ body {
 }
 
 .ceremony-fail-text {
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   color: var(--sepia);
   text-align: center;
   line-height: 1.6;
@@ -2807,7 +2805,7 @@ body {
 
 .ceremony-cooldown {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   color: var(--ink);
   background: rgba(0,0,0,0.06);
   padding: 8px 16px;
@@ -2835,7 +2833,7 @@ body {
 }
 
 .quiz-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--sepia);
   margin-bottom: 8px;
 }
@@ -2845,12 +2843,12 @@ body {
 }
 
 .quiz-counter {
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: var(--sepia);
 }
 
 .quiz-question {
-  font-size: 0.92rem;
+  font-size: 1.0rem;
   color: var(--ink);
   line-height: 1.5;
   margin-bottom: 12px;
@@ -2869,7 +2867,7 @@ body {
   color: var(--ink);
   padding: 10px 14px;
   font-family: 'IM Fell English', Georgia, serif;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   cursor: pointer;
   text-align: left;
   border-radius: 3px;
@@ -2896,12 +2894,22 @@ body {
   border-color: var(--crimson) !important;
 }
 
+/* Wrapper that reserves space so the card doesn't shift when feedback appears */
+.quiz-answer-feedback-area {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
 .quiz-feedback {
-  margin-top: 10px;
+  flex: 1;
   text-align: center;
-  font-size: 0.85rem;
-  padding: 6px;
+  font-size: 0.93rem;
+  padding: 10px 12px 8px;
   border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .quiz-feedback-correct {
@@ -2918,15 +2926,36 @@ body {
 
 .quiz-feedback-verdict {
   font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 0.82rem;
+  margin-bottom: 6px;
+  font-size: 0.96rem;
 }
 
 .quiz-feedback-explanation {
-  font-size: 0.8rem;
-  line-height: 1.55;
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: var(--ink-light);
   font-style: normal;
+  margin-bottom: 12px;
+}
+
+.quiz-ok-btn {
+  margin-top: auto;
+  align-self: center;
+  padding: 7px 28px;
+  background: var(--ink);
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.quiz-ok-btn:hover {
+  background: var(--gold);
+  color: var(--ink);
 }
 
 /* Restart game zone in HelpPanel */
@@ -2941,7 +2970,7 @@ body {
   background: none;
   border: 1px solid var(--crimson);
   color: var(--crimson);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   padding: 6px 18px;
   border-radius: 4px;
   cursor: pointer;
@@ -2962,7 +2991,7 @@ body {
 }
 
 .restart-confirm-text {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--crimson);
   flex: 1 1 100%;
   text-align: center;
@@ -2973,7 +3002,7 @@ body {
   background: var(--crimson);
   color: #fff;
   border: none;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   padding: 6px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -2983,7 +3012,7 @@ body {
   background: none;
   border: 1px solid var(--border);
   color: var(--ink-light);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   padding: 6px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -2998,7 +3027,7 @@ body {
   gap: 6px;
   margin: 8px 0 4px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
 }
 
 .teaser-fervor-label {
@@ -3017,7 +3046,7 @@ body {
 
 .teaser-fervor-warning {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: #C05050;
   font-style: italic;
   margin: 0 0 8px;
@@ -3061,7 +3090,7 @@ body {
 
 .rest-panel-type-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--gold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3079,13 +3108,13 @@ body {
 
 .rest-panel-latin {
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink-light);
   opacity: 0.7;
 }
 
 .rest-panel-desc {
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.55;
   margin-bottom: 14px;
   color: var(--ink);
@@ -3102,7 +3131,7 @@ body {
 .rest-panel-history-label {
   display: block;
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--gold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3110,7 +3139,7 @@ body {
 }
 
 .rest-panel-history p {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   line-height: 1.5;
   color: var(--ink-light);
   font-style: italic;
@@ -3123,7 +3152,7 @@ body {
 
 .rest-panel-fervor-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   letter-spacing: 0.06em;
   margin-bottom: 6px;
@@ -3148,7 +3177,7 @@ body {
   display: flex;
   gap: 3px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--gold);
   justify-content: flex-end;
 }
@@ -3162,7 +3191,7 @@ body {
   background: none;
   color: var(--ink);
   font-family: 'Cinzel', serif;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.2s;
@@ -3192,13 +3221,13 @@ body {
 }
 
 .rest-panel-btn-reward {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: #E8C96C;
   opacity: 0.85;
 }
 
 .rest-panel-warning {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: #8B1A1A;
   text-align: center;
   margin-top: 8px;
@@ -3223,7 +3252,7 @@ body {
 
 .rest-panel-fervor-restored {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #5A8A3A;
   margin-bottom: 18px;
   letter-spacing: 0.04em;
@@ -3248,13 +3277,13 @@ body {
 
 .rest-panel-pilgrim-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   color: var(--ink);
   font-weight: 700;
 }
 
 .rest-panel-pilgrim-from {
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   color: var(--ink-light);
   font-style: italic;
   opacity: 0.7;
@@ -3262,7 +3291,7 @@ body {
 
 .rest-panel-encounter-dialogue {
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.6;
   color: var(--ink);
   border-left: 3px solid var(--gold);
@@ -3279,7 +3308,7 @@ body {
   border: 1px solid rgba(201,168,76,0.4);
   border-radius: 6px;
   padding: 8px 12px;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink);
   margin-top: 10px;
   line-height: 1.4;
@@ -3287,7 +3316,7 @@ body {
 
 .rest-panel-reveal-icon {
   color: var(--gold);
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -3323,7 +3352,7 @@ body {
 
 .rest-panel-robbery-text {
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   line-height: 1.6;
   color: var(--ink);
   margin-bottom: 12px;
@@ -3333,7 +3362,7 @@ body {
   background: rgba(201, 168, 76, 0.08);
   border-left: 2px solid #C9A84C;
   padding: 8px 12px;
-  font-size: 0.85rem;
+  font-size: 0.93rem;
   font-style: italic;
   line-height: 1.5;
   color: var(--ink);
@@ -3349,7 +3378,7 @@ body {
 .rest-panel-robbery-cost {
   font-family: 'Cinzel', serif;
   color: #8B1A1A;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   margin-bottom: 16px;
 }
 
@@ -3403,7 +3432,7 @@ body {
 
 .intro-subtitle {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -3424,7 +3453,7 @@ body {
 }
 
 .intro-body p {
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   line-height: 1.65;
   color: var(--ink);
   margin-bottom: 12px;
@@ -3434,7 +3463,7 @@ body {
 
 .intro-question {
   font-family: 'Cinzel', serif !important;
-  font-size: 0.85rem !important;
+  font-size: 0.93rem !important;
   color: var(--sepia) !important;
   text-align: center !important;
   margin-top: 18px !important;
@@ -3485,21 +3514,21 @@ body {
 
 .intro-btn-label {
   display: block;
-  font-size: 0.95rem;
+  font-size: 1.03rem;
   font-weight: 600;
   margin-bottom: 2px;
 }
 
 .intro-btn-hint {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   opacity: 0.65;
   font-style: italic;
 }
 
 .intro-fervor-warning {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--sepia);
   opacity: 0.65;
   letter-spacing: 0.04em;
@@ -3535,7 +3564,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.83rem;
   color: var(--gold);
   letter-spacing: 0.04em;
   text-align: left;
@@ -3543,7 +3572,7 @@ body {
 
 .map-rest-here-text em {
   font-style: italic;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   opacity: 0.7;
   margin-top: 1px;
   font-family: 'IM Fell English', serif;
@@ -3574,7 +3603,7 @@ body {
 }
 
 .progress-btn-hint {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: #E8C96C;
   opacity: 0.85;
 }
@@ -3588,25 +3617,32 @@ body {
   cursor: progress;
 }
 
-/* Pray-for-Fervor floating button on the map */
-.map-pray-btn {
+/* Top-right stack: quest indicator + pray button */
+.map-top-right-stack {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  z-index: 900;
+  top: 12px;
+  right: 16px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+/* Pray-for-Fervor button inside the top-right stack */
+.map-pray-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--ink);
   border: 1.5px solid var(--gold);
   border-radius: 24px;
-  padding: 10px 18px;
+  padding: 8px 16px;
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-  animation: rest-panel-up 0.25s ease-out;
   white-space: nowrap;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.80rem;
   letter-spacing: 0.04em;
   color: var(--gold);
 }
@@ -3631,7 +3667,7 @@ body {
   background: var(--parchment-dark);
   color: var(--ink);
   font-family: 'Cinzel', serif;
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   letter-spacing: 0.03em;
   cursor: pointer;
   transition: background 0.2s;
@@ -3657,7 +3693,7 @@ body {
   background: var(--ink);
   color: var(--gold);
   font-family: 'Cinzel', serif;
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   letter-spacing: 0.03em;
   cursor: pointer;
   transition: background 0.2s;
@@ -3671,7 +3707,7 @@ body {
 
 .teaser-btn-cost {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   opacity: 0.7;
   font-family: 'IM Fell English', serif;
   font-style: italic;
@@ -3679,7 +3715,7 @@ body {
 
 /* ── Rest panel distance indicator ──────────────────────────────── */
 .rest-panel-distance {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--sepia);
   font-style: italic;
   text-align: center;

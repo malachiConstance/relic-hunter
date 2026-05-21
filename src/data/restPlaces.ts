@@ -378,6 +378,29 @@ export const ENCOUNTERS: Encounter[] = [
       'My husband insists on visiting every church in the city. I have sat in this tavern three days waiting. God gives patience to some and wanderlust to others. Which are you, friend?',
   },
 
+  // False-lead peaceful outcomes (60% chance — no robbery, just a quiet discovery)
+  {
+    id: 'false-lead-peaceful-1',
+    type: 'neutral',
+    pilgrimName: 'Your own thoughts',
+    from: '',
+    dialogue: 'You find nothing but crumbling stone and the quiet wind through empty walls. Yet the silence is strangely peaceful — a moment of stillness amid your long journey. Your spirit is a little restored.',
+  },
+  {
+    id: 'false-lead-peaceful-2',
+    type: 'neutral',
+    pilgrimName: 'Your own thoughts',
+    from: '',
+    dialogue: 'The place holds no relic, no hermit, no treasure. Only old stones and weeds pushing through the mortar. You kneel briefly, say a prayer, and feel the better for it. Some journeys teach humility.',
+  },
+  {
+    id: 'false-lead-peaceful-3',
+    type: 'neutral',
+    pilgrimName: 'Your own thoughts',
+    from: '',
+    dialogue: 'Whoever described this place as a sacred site was mistaken — or lying. You find nothing of note. But the walk itself was contemplative, and you return to the road with a clearer head and steadier legs.',
+  },
+
   // Bettolino della Vetra encounters
   {
     id: 'vetra-1',
@@ -419,8 +442,8 @@ export const REST_PLACES: RestPlace[] = [
     coord: [45.4675, 9.2018],
     description: 'A crumbling structure near the old eastern gate.',
     history: '',
-    fervorRestore: 0,
-    encounterPool: [],
+    fervorRestore: 20,
+    encounterPool: ['false-lead-peaceful-1', 'false-lead-peaceful-2', 'false-lead-peaceful-3'],
     isFalseLead: true,
   },
   {
@@ -431,8 +454,8 @@ export const REST_PLACES: RestPlace[] = [
     coord: [45.4587, 9.1826],
     description: 'Crumbling stone near the ancient amphitheatre.',
     history: '',
-    fervorRestore: 0,
-    encounterPool: [],
+    fervorRestore: 20,
+    encounterPool: ['false-lead-peaceful-1', 'false-lead-peaceful-2', 'false-lead-peaceful-3'],
     isFalseLead: true,
   },
   {
@@ -443,8 +466,8 @@ export const REST_PLACES: RestPlace[] = [
     coord: [45.4558, 9.1855],
     description: 'A small locked chapel near the southern gate.',
     history: '',
-    fervorRestore: 0,
-    encounterPool: [],
+    fervorRestore: 20,
+    encounterPool: ['false-lead-peaceful-1', 'false-lead-peaceful-2', 'false-lead-peaceful-3'],
     isFalseLead: true,
   },
 
